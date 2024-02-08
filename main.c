@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/02/08 21:06:07 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/02/08 21:47:45 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@ int	main(int argc, char **argv, char **env)
 {
 	int	fd[2];
 	int	id;
-	int	id2;
 	//	int	file1;
 	//	int	file2;
 	int	error;
-	int	code_status;
 
 	(void)argc;
 	//		file1 = open(argv[1], O_RDONLY);
@@ -37,8 +35,10 @@ int	main(int argc, char **argv, char **env)
 		return (-1);
 	if (id == 0)
 	{
+
+		dprintf(2, "id premier enfant : %d\n", getpid());
 		close(fd[0]);
-		char *arr[] = {"/usr/bin/echo", "Je suis demunie Alix", NULL};
+		char *arr[] = {"/usr/bin/echo", NULL};
 		dup2(fd[1], 1);
 		close(fd[1]);
 		error = execve(arr[0], argv, env);
@@ -50,22 +50,25 @@ int	main(int argc, char **argv, char **env)
 	}
 	else
 	{
-		wait(&id);
-		id2 = fork();		
+		id = fork();		
 		close(fd[1]);
-		char *arr[] = {"/usr/bin/echo", "Je suis demunie Alix", NULL};
-		dup2(fd[0], 0);
-		close(fd[0]);
-		error = execve(arr[0], argv, env);
-		if (WIFEXITED(id))
+		if (id == 0)
 		{
-			code_status = WEXITSTATUS(id);
-			if (code_status == 0)
-				ft_printf("Success\n");
-			else
-				ft_printf("Failure with status code: %d\n", code_status);
+			dprintf(2, "id deuxieme enfant : %d\n", getpid());
+			close(fd[1]);
+			char *arr[] = {"/usr/bin/cat", NULL};
+			dup2(fd[0], 0);
+			close(fd[0]);
+			error = execve(arr[0], argv, env);
 		}
-
+		else
+		{
+			close(fd[0]);
+			close(fd[1]);
+			wait(&id);
+		}
+	//	wait(&id);
 	}
+//	while(wait(NULL) > 0)
 	return (0);
 }
