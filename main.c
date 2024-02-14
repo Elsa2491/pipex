@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/02/08 21:47:45 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/02/14 18:53:31 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ int	main(int argc, char **argv, char **env)
 		{
 			close(fd[0]);
 			close(fd[1]);
-			wait(&id);
+//			wait(&id);
 		}
-	//	wait(&id);
+		wait(&id);
 	}
-//	while(wait(NULL) > 0)
+	while(wait(NULL) > 0)
 	return (0);
 }
