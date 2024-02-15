@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/02/15 17:39:43 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/02/15 18:21:44 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	main(int argc, char **argv, char **env)
 	//		file2 = open(argv[4], O_RDWR | O_TRUNC | O_CREAT, 0777);
 	//		if (file1 == -1)
 	//			return (-1);
-
 	if (pipe(fd) == -1)
 		return (-1);
 	id = 0;
@@ -38,13 +37,14 @@ int	main(int argc, char **argv, char **env)
 
 		dprintf(2, "id premier enfant : %d\n", getpid());
 		close(fd[0]);
-		char *path[] = {"/usr/bin/echo", argv[1], NULL};
+		char	*path[] = {"/usr/bin/echo", argv[1], NULL};
 		dup2(fd[1], 1);
 		close(fd[1]);
 		error = execve(path[0], path, env);
+		printf("coucou Antoine\n");
 		if (error == -1)
 		{
-			ft_printf("Error in child process\n");
+			ft_printf("Error in child process 1\n");
 			exit (1);
 		}
 	}
@@ -55,13 +55,13 @@ int	main(int argc, char **argv, char **env)
 		{
 			dprintf(2, "id deuxieme enfant : %d\n", getpid());
 			close(fd[1]);
-			char *path[] = {"/usr/bin/wc", "-l", NULL};
+			char	*path[] = {"/usr/bin/cat", NULL};
 			dup2(fd[0], 0);
 			close(fd[0]);
 			error = execve(path[0], path, env);
 			if (error == -1)
 			{
-				ft_printf("Error in child process\n");
+				ft_printf("Error in child process 2\n");
 				exit (1);
 			}
 		}
