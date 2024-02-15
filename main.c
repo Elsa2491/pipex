@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/02/15 18:21:44 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/02/15 19:46:51 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	main(int argc, char **argv, char **env)
 		dup2(fd[1], 1);
 		close(fd[1]);
 		error = execve(path[0], path, env);
-		printf("coucou Antoine\n");
 		if (error == -1)
 		{
 			ft_printf("Error in child process 1\n");
@@ -55,7 +54,7 @@ int	main(int argc, char **argv, char **env)
 		{
 			dprintf(2, "id deuxieme enfant : %d\n", getpid());
 			close(fd[1]);
-			char	*path[] = {"/usr/bin/cat", NULL};
+			char	*path[] = {"/usr/bin/wc", NULL};
 			dup2(fd[0], 0);
 			close(fd[0]);
 			error = execve(path[0], path, env);
