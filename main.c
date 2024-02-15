@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/02/14 18:53:31 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/02/15 17:39:43 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,37 +38,40 @@ int	main(int argc, char **argv, char **env)
 
 		dprintf(2, "id premier enfant : %d\n", getpid());
 		close(fd[0]);
-		char *arr[] = {"/usr/bin/echo", NULL};
+		char *path[] = {"/usr/bin/echo", argv[1], NULL};
 		dup2(fd[1], 1);
 		close(fd[1]);
-		error = execve(arr[0], argv, env);
+		error = execve(path[0], path, env);
 		if (error == -1)
 		{
 			ft_printf("Error in child process\n");
-			return (EXIT_FAILURE);
+			exit (1);
 		}
 	}
 	else
 	{
-		id = fork();		
-		close(fd[1]);
+		id = fork();
 		if (id == 0)
 		{
 			dprintf(2, "id deuxieme enfant : %d\n", getpid());
 			close(fd[1]);
-			char *arr[] = {"/usr/bin/cat", NULL};
+			char *path[] = {"/usr/bin/wc", "-l", NULL};
 			dup2(fd[0], 0);
 			close(fd[0]);
-			error = execve(arr[0], argv, env);
+			error = execve(path[0], path, env);
+			if (error == -1)
+			{
+				ft_printf("Error in child process\n");
+				exit (1);
+			}
 		}
 		else
 		{
 			close(fd[0]);
 			close(fd[1]);
-//			wait(&id);
 		}
-		wait(&id);
+		while (wait(NULL) > 0);
 	}
-	while(wait(NULL) > 0)
+	while (wait(NULL) > 0);
 	return (0);
 }
