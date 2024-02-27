@@ -22,9 +22,10 @@ int	main(int argc, char **argv, char **env)
 	int	i;
 	t_struct	pid;
 
+	(void)argc;
 	i = 0;
 	all_argv  = argv[2];
-	nb_cmds = argc - 3;
+	nb_cmds = 2;
 	if (pipe(fd) == -1)
 		return (-1);
 	pid.pid_tab[i] = fork();
@@ -32,6 +33,7 @@ int	main(int argc, char **argv, char **env)
 		return (-1);
 	while (i < nb_cmds)
 	{
+		printf("Avant le premier enfant, i vaut %d\n", i);
 		if (pid.pid_tab[i] == 0)
 		{
 			dprintf(2, "\nid premier enfant : %d\n", getpid());
@@ -49,7 +51,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		else if (pid.pid_tab[i] > 0)
 		{
-			pid.pid_tab[i] = fork();
+			pid.pid_tab[++i] = fork();
 			if (pid.pid_tab[i] == 0)
 			{
 				dprintf(2, "id deuxieme enfant : %d\n\n", getpid());
@@ -71,10 +73,20 @@ int	main(int argc, char **argv, char **env)
 				close(fd[1]);
 			}
 		}
+		 i += 1;
+	}
+	i = 0;
+	while(i < nb_cmds)
+	{
+		dprintf(2, "\n\npid.pid_tab[%d] = %d\n\n", i, pid.pid_tab[i]);
 		i += 1;
 	}
 	i = 0;
 	while(i < nb_cmds)
-		waitpid(pid.pid_tab[i++], NULL, 0);
+	{
+		waitpid(pid.pid_tab[i], NULL, 0);
+		printf("coucou\n");
+		i++;
+	}
 	return (0);
 }
