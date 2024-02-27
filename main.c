@@ -27,7 +27,6 @@ int	main(int argc, char **argv, char **env)
 	nb_cmds = argc - 3;
 	if (pipe(fd) == -1)
 		return (-1);
-	// id = 0;
 	pid.pid_tab[i] = fork();
 	if (pid.pid_tab[i] == -1)
 		return (-1);
@@ -37,11 +36,9 @@ int	main(int argc, char **argv, char **env)
 		{
 			dprintf(2, "\nid premier enfant : %d\n", getpid());
 			close(fd[0]);
-//			char	*path[] = {"/usr/bin/echo", argv[0], NULL};
 			char	*path[] = {argv[2], argv[1], NULL};
 			dup2(fd[1], 1);
 			close(fd[1]);
-			// pid.pid_tab[i];
 			dprintf(2, "\ni du premier enfant %d vaut %d\n", getpid(), i);
 			error = execve(path[0], path, env);
 			if (error == -1)
@@ -58,10 +55,8 @@ int	main(int argc, char **argv, char **env)
 				dprintf(2, "id deuxieme enfant : %d\n\n", getpid());
 				close(fd[1]);
 				char	*path[] = {"/usr/bin/wc", NULL};
-//				char	*path[] = {argv[3], argv[4], NULL};
 				dup2(fd[0], 0);
 				close(fd[0]);
-				// i++;
 				dprintf(2, "\ni du deuxieme enfant %d vaut %d\n", getpid(), i);
 				error = execve(path[0], path, env);
 				if (error == -1)
@@ -75,13 +70,8 @@ int	main(int argc, char **argv, char **env)
 				close(fd[0]);
 				close(fd[1]);
 			}
-
-//			waitpid(pid.pid_tab[i], NULL, 0);
-			// while (wait(NULL) > 0);
 		}
-		// pid.pid_tab[++i] = id;
 		i += 1;
-//		waitpid(pid.pid_tab[i], NULL, 0);
 	}
 	i = 0;
 	while(i < nb_cmds)
