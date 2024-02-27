@@ -16,7 +16,6 @@
 int	main(int argc, char **argv, char **env)
 {
 	int	fd[2];
-	pid_t	id;
 	int	error;
 	char	*all_argv;
 	int	nb_cmds;
@@ -28,13 +27,13 @@ int	main(int argc, char **argv, char **env)
 	nb_cmds = argc - 3;
 	if (pipe(fd) == -1)
 		return (-1);
-	id = 0;
-	id = fork();
-	if (id == -1)
+	// id = 0;
+	pid.pid_tab[i] = fork();
+	if (pid.pid_tab[i] == -1)
 		return (-1);
 	while (i < nb_cmds)
 	{
-		if (id == 0)
+		if (pid.pid_tab[i] == 0)
 		{
 			dprintf(2, "\nid premier enfant : %d\n", getpid());
 			close(fd[0]);
@@ -42,7 +41,7 @@ int	main(int argc, char **argv, char **env)
 			char	*path[] = {argv[2], argv[1], NULL};
 			dup2(fd[1], 1);
 			close(fd[1]);
-			pid.pid_tab[i] = id;
+			// pid.pid_tab[i];
 			dprintf(2, "\ni du premier enfant %d vaut %d\n", getpid(), i);
 			error = execve(path[0], path, env);
 			if (error == -1)
@@ -51,10 +50,10 @@ int	main(int argc, char **argv, char **env)
 				exit (1);
 			}
 		}
-		else if (id > 0)
+		else if (pid.pid_tab[i] > 0)
 		{
-			id = fork();
-			if (id == 0)
+			pid.pid_tab[i] = fork();
+			if (pid.pid_tab[i] == 0)
 			{
 				dprintf(2, "id deuxieme enfant : %d\n\n", getpid());
 				close(fd[1]);
@@ -62,7 +61,7 @@ int	main(int argc, char **argv, char **env)
 //				char	*path[] = {argv[3], argv[4], NULL};
 				dup2(fd[0], 0);
 				close(fd[0]);
-//				pid.pid_tab[++i] = id;
+				// i++;
 				dprintf(2, "\ni du deuxieme enfant %d vaut %d\n", getpid(), i);
 				error = execve(path[0], path, env);
 				if (error == -1)
@@ -76,15 +75,16 @@ int	main(int argc, char **argv, char **env)
 				close(fd[0]);
 				close(fd[1]);
 			}
+
 //			waitpid(pid.pid_tab[i], NULL, 0);
-//			while (wait(NULL) > 0);
+			// while (wait(NULL) > 0);
 		}
-		pid.pid_tab[++i] = id;
-//		i += 1;
-		waitpid(pid.pid_tab[i], NULL, 0);
+		// pid.pid_tab[++i] = id;
+		i += 1;
+//		waitpid(pid.pid_tab[i], NULL, 0);
 	}
-	waitpid(pid.pid_tab[i], NULL, 0);
-//	waitpid(id, NULL, 0);
-//	while (wait(NULL) > 0);
+	i = 0;
+	while(i < nb_cmds)
+		waitpid(pid.pid_tab[i++], NULL, 0);
 	return (0);
 }
