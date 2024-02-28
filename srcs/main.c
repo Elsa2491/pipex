@@ -6,16 +6,17 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/02/28 15:02:35 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/02/28 22:34:17 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <stdio.h>
 
-void	ft_child_process(t_pipex pipex)
+void	ft_child_process(t_pipex pipex, char **argv)
 {
 	int		infile;
+	(void)argv;
 
 	infile = open("infile", O_RDONLY, 0755);
 	dprintf(2, "id premier enfant : %d\n", getpid());
@@ -24,6 +25,7 @@ void	ft_child_process(t_pipex pipex)
 	close(pipex.fd_pipe[0]);
 	dup2(pipex.fd_pipe[1], 1);
 	close(pipex.fd_pipe[1]);
+//	char	*cmd = *ft_split(argv[1], 32);
 	char	*cmd[] = {"cat", NULL};
 	pipex.exec = execve("/usr/bin/cat", cmd, NULL);
 	if (pipex.exec == -1)
@@ -49,6 +51,7 @@ void	ft_parent_process(t_pipex pipex)
 		close(pipex.fd_pipe[0]);
 		char	*cmd[] = {"wc", NULL};
 		pipex.exec = execve("/usr/bin/wc", cmd, NULL);
+//		pipex.exec = execve("/usr/bin/wc", "-l", cmd, NULL);
 		if (pipex.exec == -1)
 		{
 			ft_printf("Error in child process 1\n");
@@ -64,17 +67,33 @@ void	ft_parent_process(t_pipex pipex)
 int	main(int argc, char **argv, char **env)
 {
 	(void)argc;
-	(void)argv;
 	(void)env;
 	t_pipex		pipex;
+	int	i = 0;
 
+	ft_memset(&pipex, 0, sizeof(t_pipex));
+	pipex.env_path = ft_strncmp(env, "PATH=", 5);
+		printf("\n%s\n\n", pipex.env_path);
+	pipex.cmd_path = ft_split(pipex.env_path, 58);
+		char	*s;
+	s = ft_strjoin(*pipex.cmd_path, argv[1]);
+	printf("%s\n", s);
+	free(s);
+	while (pipex.cmd_path[i])
+	{
+		ft_printf("%s\n", pipex.cmd_path[i]);
+		free(pipex.cmd_path[i]);
+		i += 1;
+	}
+	free(pipex.cmd_path);
+	printf("\n");
 	if (pipe(pipex.fd_pipe) == -1)
 		return (-1);
 	pipex.cmd1 = fork();
 	if (pipex.cmd1 == -1)
 		return (-1);
 	if (pipex.cmd1 == 0)
-		ft_child_process(pipex);
+		ft_child_process(pipex, argv);
 	else if (pipex.cmd1 > 0)
 		ft_parent_process(pipex);
 	return (0);
