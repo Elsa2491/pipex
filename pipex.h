@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:53 by eltouma           #+#    #+#             */
-/*   Updated: 2024/02/27 20:15:14 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/02/28 14:37:27 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,14 @@
 # include <fcntl.h>
 # include "printf/ft_printf.h"
 
-typedef struct s_struct
+typedef struct s_pipex
 {
-    pid_t     pid_tab[1024];
-    int       *fd[];
-}               t_struct;
+	//pid_t     pid_tab[1024];
+	int	fd_pipe[2];
+	pid_t	cmd1;
+	pid_t	cmd2;
+	int	exec;
+}               t_pipex;
 
 
 int		ft_strlen(char *str);

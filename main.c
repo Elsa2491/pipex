@@ -6,55 +6,67 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/02/28 01:26:57 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/02/28 14:38:10 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <stdio.h>
 
-int     main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
-        pid_t   cmd1;
-        pid_t   cmd2;
-        int     fd_pipe[2];
+	t_pipex		pipex;
+	int		infile;
+	int		outfile;
 
-        pipe(fd_pipe);
-        cmd1 = fork();
-        if (cmd1 == 0)
-        {
-                int     infile;
-                infile = open("infile", O_RDONLY, 0755);
-                printf("Je suis l'enfant 1\n");
-                dup2(infile, 0);
+	if (pipe(pipex.fd_pipe) == -1)
+		return (-1);
+	pipex.cmd1 = fork();
+	if (pipex.cmd1 == -1)
+		return (-1);
+	if (pipex.cmd1 == 0)
+	{
+		infile = open("infile", O_RDONLY, 0755);
+		dprintf(2, "id premier enfant : %d\n", getpid());
+		dup2(infile, 0);
+		close(infile);
+		close(pipex.fd_pipe[0]);
+		dup2(pipex.fd_pipe[1], 1);
+		close(pipex.fd_pipe[1]);
+		char	*cmd[] = {"cat", NULL};
+		pipex.exec = execve("/usr/bin/cat", cmd, NULL);
+		if (pipex.exec == -1)
+		{
+			ft_printf("Error in child process 1\n");
+			exit (1);
+		}
+	}
+	else if (pipex.cmd1 > 0)
+	{
+		pipex.cmd2 = fork();
+		if (pipex.cmd2 == 0)
+		{
+			outfile = open("outfile", O_WRONLY | O_CREAT | O_TRUNC, 0755);
+			dprintf(2, "id deuxieme enfant : %d\n", getpid());
+			dup2(outfile, 1);
+			close(outfile);
+			close(pipex.fd_pipe[1]);
+			dup2(pipex.fd_pipe[0], 0);
+			close(pipex.fd_pipe[0]);
+			char	*cmd[] = {"wc", NULL};
+			pipex.exec = execve("/usr/bin/wc", cmd, NULL);
+			if (pipex.exec == -1)
+			{
+				ft_printf("Error in child process 1\n");
+				exit (1);
+			}
+		}
+	}
+	close(pipex.fd_pipe[0]);
+	close(pipex.fd_pipe[1]);
 
-                close(fd_pipe[0]);
-                dup2(fd_pipe[1], 1);
-                close(fd_pipe[1]);
-                char    *cmd[] = {"cat", NULL};
-                execve("/usr/bin/cat", cmd, NULL);
-        }
-        else
-        {
-                cmd2 = fork();
-                if (cmd2 == 0)
-                {
-                        int     outfile;
-                        outfile = open("outfile", O_WRONLY | O_CREAT | O_TRUNC, 0755);
-                        dup2(outfile, 1);
 
-                        printf("Je suis l'enfant 2\n");
-                        close(fd_pipe[1]);
-                        dup2(fd_pipe[0], 0);
-                        close(fd_pipe[0]);
-                        char    *cmd[] = {"wc", NULL};
-                        execve("/usr/bin/wc", cmd, NULL);
-                }
-        }
-        close(fd_pipe[0]);
-        close(fd_pipe[1]);
-        waitpid(cmd1, NULL, 0);
-        waitpid(cmd2, NULL, 0);
-        return (0);
+	waitpid(pipex.cmd1, NULL, 0);
+	waitpid(pipex.cmd2, NULL, 0);
+	return (0);
 }
-
