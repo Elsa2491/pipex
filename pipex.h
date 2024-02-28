@@ -23,6 +23,7 @@
 typedef struct s_struct
 {
     pid_t     pid_tab[1024];
+    int       *fd[];
 }               t_struct;
 
 
