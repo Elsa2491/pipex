@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:53 by eltouma           #+#    #+#             */
-/*   Updated: 2024/02/29 02:19:52 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/02/29 14:23:42 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int		ft_count_words(char *str, char c);
 int		ft_count_size_of_word(char *str, char c);
 char	*ft_strncmp(char **env, char *str, int n);
 char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strcat(char *dest, char *src);
 void	*ft_memset(void *s, int c, unsigned int n);
 char	**ft_split(char *str, char c);
 void	*ft_free_tab(char **tab);

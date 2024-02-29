@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 22:12:16 by eltouma           #+#    #+#             */
-/*   Updated: 2024/02/29 00:13:35 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/02/29 14:46:58 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,22 @@ char	*ft_strncmp(char **env, char *str, int n)
 	}
 	return (NULL);
 }
+
+/*
+char	*ft_strcat(char *dest, char *src)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	if (!dest)
+		return (ft_strlen(src));
+	i = ft_strlen(dest);
+	while (src[i] != '\0')
+		dest[i++] = src[j++];
+	dest[i] = '\0';
+	return (dest); 
+}*/
 
 char	*ft_strjoin(char *s1, char *s2)
 {

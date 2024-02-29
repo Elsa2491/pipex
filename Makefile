@@ -10,7 +10,7 @@ GREEN 	:= \e[32m
 RESET 	:= \e[0m
 MAKEFLAGS    +=    --no-print-directory
 
-SRCS = main.c split.c size_functions.c init_functions.c check_params.c
+SRCS = main.c split.c size_functions.c init_functions.c check_params.c handle_errors.c
 
 #BONUS_SRCS = main_bonus.c 
 

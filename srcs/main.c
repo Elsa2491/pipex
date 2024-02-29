@@ -6,31 +6,36 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/02/29 02:17:43 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/02/29 18:27:27 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <stdio.h>
 
+// tester avec path absolu
 char	*ft_get_cmd_path(t_pipex *pipex, char *argv)
 {
 	int		i;
 	char	*tmp;
+	char	*tmp2;
 
 	i = 0;
 	while (pipex->cmd_path[i])
 	{
-		tmp = ft_strjoin(pipex->cmd_path[i], argv);
-		if (access(tmp, F_OK | X_OK) == 0)
-			return (tmp);
+		tmp = ft_strjoin(pipex->cmd_path[i], "/");
+		tmp2 = ft_strjoin(tmp, argv);
 		free(tmp);
+		// dprintf(2, "ACCESS tmp = %s\n", tmp2);
+		if (access(tmp2, F_OK | X_OK) == 0)
+			return (tmp2);
+		free(tmp2);
 		i += 1;
 	}
 	return (NULL);
 }
 
-char	*ft_get_cmd_path2(t_pipex *pipex, char *argv)
+/* char	*ft_get_cmd_path2(t_pipex *pipex, char *argv)
 {
 	int		i;
 	char	*tmp;
@@ -39,14 +44,15 @@ char	*ft_get_cmd_path2(t_pipex *pipex, char *argv)
 	while (pipex->cmd_path[i])
 	{
 		tmp = ft_strjoin(pipex->cmd_path[i], argv);
-		if (access(tmp, F_OK | X_OK | R_OK) == 0)
+		if (access(tmp, F_OK | X_OK ) == 0)
 			return (tmp);
 		free(tmp);
 		i += 1;
 	}
 	return (NULL);
-}
+} */
 
+//whitespace
 void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 {
 	int		infile;
@@ -55,18 +61,23 @@ void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 	char	**args;
 
 	i = 0;
-//	dprintf(2, "id premier enfant : %d\n", getpid());
-	infile = open("infile", O_RDONLY, 0755);
+	dprintf(2, "id premier enfant : %d\n", getpid());
+	infile = open(argv[1], O_RDONLY, 0755);
+	if (infile == -1)
+		return ; // mettre ft_putstr_fd() avec un exit
 	dup2(infile, 0);
 	close(infile);
 	close(pipex->fd_pipe[0]);
 	dup2(pipex->fd_pipe[1], 1);
 	close(pipex->fd_pipe[1]);
-	cmd = ft_get_cmd_path(pipex, argv[2]);
-//	dprintf(2, "cmd path = %s", cmd);
 	args = ft_split(argv[2], 32);
+	cmd = ft_get_cmd_path(pipex, args[0]);
+//	if (!cmd)
+//		exit(1);
+//	dprintf(2, "cmd path = %s", cmd);
+	// args = ft_split(argv[2], 32);
 	execve(cmd, args, env);
-	ft_printf("Error in child process 1\n");
+	ft_printf("Error in child process 1\n"); // ecrire sur la sortie erreur
 	exit (1);
 }
 
@@ -79,16 +90,18 @@ void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
 	pipex->cmd2 = fork();
 	if (pipex->cmd2 == 0)
 	{
-		outfile = open("outfile", O_WRONLY | O_CREAT | O_TRUNC, 0755);
+		outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0755);
 		dup2(outfile, 1);
 		close(outfile);
 		close(pipex->fd_pipe[1]);
 		dup2(pipex->fd_pipe[0], 0);
 		close(pipex->fd_pipe[0]);
-		cmd = ft_get_cmd_path2(pipex, argv[3]);
 		args = ft_split(argv[3], 32);
+		cmd = ft_get_cmd_path(pipex, args[0]);
+		// args = ft_split(argv[3], 32);
 		execve(cmd, args, env);
-		ft_printf("Error in child process 2\n");
+		// write(2, str, ft_strlen(str));
+		ft_printf("Error in child process 2\n"); // ecrire sur la sortie erreur
 		exit (1);
 	}
 	close(pipex->fd_pipe[0]);
