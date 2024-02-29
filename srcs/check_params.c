@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 22:12:16 by eltouma           #+#    #+#             */
-/*   Updated: 2024/02/28 22:16:00 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/02/29 00:13:35 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*ft_strncmp(char **env, char *str, int n)
 	int	k;
 
 	i = 0;
+	if (!env)
+		return (NULL);
 	while (env[i])
 	{
 		j = 0;

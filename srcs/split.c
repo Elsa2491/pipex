@@ -45,12 +45,12 @@ static char	**ft_return_tab(char *str, char c)
 	return (tab);
 }
 
-static char	**ft_free_tab(char **tab, int j)
+void	*ft_free_tab(char **tab)
 {
 	int	i;
 
 	i = 0;
-	while (i < j)
+	while (tab[i])
 	{
 		free(tab[i]);
 		tab[i] = NULL;
@@ -79,7 +79,7 @@ char	**ft_split(char *str, char c)
 		{
 			tab[j] = ft_fill_tab(&str[i], c);
 			if (!tab[j])
-				return (ft_free_tab(tab, j));
+				return (ft_free_tab(tab));
 			j += 1;
 			while (str[i] != '\0' && str[i] != c)
 				i += 1;

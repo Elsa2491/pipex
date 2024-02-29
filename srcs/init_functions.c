@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 22:07:39 by eltouma           #+#    #+#             */
-/*   Updated: 2024/02/28 22:08:09 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/02/29 02:00:56 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	*ft_memset(void *s, int c, unsigned int n)
 {
-	unsigned char *pipex;
+	unsigned char	*pipex;
 
 	pipex = s;
 	while (n > 0)

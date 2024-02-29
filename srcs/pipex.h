@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:53 by eltouma           #+#    #+#             */
-/*   Updated: 2024/02/28 22:16:15 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/02/29 02:19:52 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,13 @@
 
 typedef struct s_pipex
 {
-	//pid_t     pid_tab[1024];
-	int	fd_pipe[2];
+	int		fd_pipe[2];
+	int		exec;
 	pid_t	cmd1;
 	pid_t	cmd2;
-	int	exec;
 	char	*env_path;
 	char	**cmd_path;
-}               t_pipex;
-
+}		t_pipex;
 
 int		ft_strlen(char *str);
 int		ft_count_words(char *str, char c);
@@ -40,4 +38,6 @@ char	*ft_strncmp(char **env, char *str, int n);
 char	*ft_strjoin(char *s1, char *s2);
 void	*ft_memset(void *s, int c, unsigned int n);
 char	**ft_split(char *str, char c);
+void	*ft_free_tab(char **tab);
+
 #endif
