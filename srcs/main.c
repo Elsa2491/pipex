@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/02/29 18:27:27 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/05 20:14:00 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,6 @@ char	*ft_get_cmd_path(t_pipex *pipex, char *argv)
 	}
 	return (NULL);
 }
-
-/* char	*ft_get_cmd_path2(t_pipex *pipex, char *argv)
-{
-	int		i;
-	char	*tmp;
-
-	i = 0;
-	while (pipex->cmd_path[i])
-	{
-		tmp = ft_strjoin(pipex->cmd_path[i], argv);
-		if (access(tmp, F_OK | X_OK ) == 0)
-			return (tmp);
-		free(tmp);
-		i += 1;
-	}
-	return (NULL);
-} */
 
 //whitespace
 void	ft_child_process(t_pipex *pipex, char **argv, char **env)
@@ -116,6 +99,8 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)env;
+	if (argc != 5)
+		ft_print_missing_param();
 	ft_memset(&pipex, 0, sizeof(t_pipex));
 	pipex.env_path = ft_strncmp(env, "PATH=", 5);
 	pipex.cmd_path = ft_split(pipex.env_path, 58);

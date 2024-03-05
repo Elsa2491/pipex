@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:53 by eltouma           #+#    #+#             */
-/*   Updated: 2024/02/29 14:23:42 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/05 20:24:25 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include "../printf/srcs/ft_printf.h"
+
+# define WARNING	 " → Warning\n"
+# define CORRECT_ARGV		" Please enter correct arguments:\n"
+# define ARROW	"\t→ "
 
 typedef struct s_pipex
 {
@@ -40,5 +44,7 @@ char	*ft_strcat(char *dest, char *src);
 void	*ft_memset(void *s, int c, unsigned int n);
 char	**ft_split(char *str, char c);
 void	*ft_free_tab(char **tab);
-
+void	ft_print_missing_param(void);
+void	ft_print_header(void);
+void	ft_print_footer(void);
 #endif
