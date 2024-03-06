@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/06 01:47:06 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/06 19:59:41 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ char	*ft_get_cmd_path(t_pipex *pipex, char *argv)
 		free(tmp2);
 		i += 1;
 	}
-//	exit (EXIT_FAILURE);
 	return (NULL);
 }
 
@@ -53,12 +52,12 @@ void	ft_print_error_infile(t_pipex *pipex, char **argv)
 		ft_putstr_fd(argv[2], ": ", 2);
 		ft_putstr_fd(argv[1], ": No such file or directory",  2);
 	}
-	else if (!ft_strcmp(argv[2], "rm")) // || !(ft_strcmp(argv[2], "wc")))
+	else if (!ft_strcmp(argv[2], "rm"))
 	{
 		ft_putstr_fd(argv[2], ": cannot remove '", 2);
 		ft_putstr_fd(argv[1], "': No such file or directory",  2);
 	}
-	else if (!ft_strcmp(argv[2], "rmdir")) // || !(ft_strcmp(argv[2], "wc")))
+	else if (!ft_strcmp(argv[2], "rmdir"))
 	{
 		ft_putstr_fd(argv[2], ": failed to remove '", 2);
 		ft_putstr_fd(argv[1], ": No such file or directory",  2);
@@ -70,7 +69,6 @@ void	ft_print_error_infile(t_pipex *pipex, char **argv)
 	exit (EXIT_FAILURE);
 }
 
-//whitespace
 void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 {
 	int		infile;
@@ -88,15 +86,15 @@ void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 	close(pipex->fd_pipe[0]);
 	dup2(pipex->fd_pipe[1], 1);
 	close(pipex->fd_pipe[1]);
-	args = ft_split(argv[2], 32);
+	args = ft_split(argv[2]);
 	cmd = ft_get_cmd_path(pipex, args[0]);
 	if (!cmd)
-		perror(argv[2]);
-	//		exit(1);
-	//	dprintf(2, "cmd path = %s", cmd);
-	// args = ft_split(argv[2], 32);
+	{
+		ft_putstr_fd(argv[2], ": command not found\n", 2);
+		exit (1);
+	}
 	execve(cmd, args, env);
-	ft_printf(2, "Error in child process 1\n"); // ecrire sur la sortie erreur
+	ft_printf(2, "Error in child process 1\n");
 	exit (1);
 }
 
@@ -127,7 +125,7 @@ void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
 		close(pipex->fd_pipe[1]);
 		dup2(pipex->fd_pipe[0], 0);
 		close(pipex->fd_pipe[0]);
-		args = ft_split(argv[3], 32);
+		args = ft_split(argv[3]);
 		cmd = ft_get_cmd_path(pipex, args[0]);
 		if (!cmd)
 		{
@@ -153,7 +151,7 @@ int	main(int argc, char **argv, char **env)
 		ft_print_missing_param();
 	ft_memset(&pipex, 0, sizeof(t_pipex));
 	pipex.env_path = ft_strncmp(env, "PATH=", 5);
-	pipex.cmd_path = ft_split(pipex.env_path, 58);
+	pipex.cmd_path = ft_split(pipex.env_path);
 	if (pipe(pipex.fd_pipe) == -1)
 		return (-1);
 	pipex.cmd1 = fork();
@@ -166,3 +164,4 @@ int	main(int argc, char **argv, char **env)
 	ft_free_tab(pipex.cmd_path);
 	return (0);
 }
+
