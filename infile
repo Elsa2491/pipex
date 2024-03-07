@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_utils.c                                      :+:      :+:    :+:   */
+/*   size_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:15:31 by eltouma           #+#    #+#             */
-/*   Updated: 2024/02/27 14:42:57 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/06 19:58:15 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-int	ft_count_words(char *str, char c)
+int	ft_count_words(char *str)
 {
 	int	i;
 	int	j;
@@ -31,22 +31,23 @@ int	ft_count_words(char *str, char c)
 	j = 0;
 	while (i < ft_strlen(str))
 	{
-		if (str[i] != c)
+		if (!(str[i] >= 9 && str[i] <= 13) && str[i] != 32 && str[i] != 58)
 			j += 1;
-		while (str[i] != c && str[i] != '\0')
+		while (!(str[i] >= 9 && str[i] <= 13) && str[i] != 32 && str[i] != 58 && str[i] != '\0')
 			i += 1;
-		while (str[i] == c && str[i] != '\0')
+		while (((str[i] >= 9 && str[i] <= 13) || str[i] == 32 || str[i] == 58) && str[i] != '\0')
 			i += 1;
 	}
 	return (j);
 }
 
-int	ft_count_size_of_word(char *str, char c)
+int	ft_count_size_of_word(char *str)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] != '\0' && str[i] != c)
+	while (!(str[i] >= 9 && str[i] <= 13) && str[i] != 32 && str[i] != 58 && str[i] != '\0')
 		i += 1;
 	return (i);
 }
+

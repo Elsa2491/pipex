@@ -6,13 +6,28 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/07 18:08:48 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/07 19:28:25 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-// tester avec path absolu
+char	*ft_strdup(char *s)
+{
+	int	i;
+	char	*str;
+
+	i = 0;
+	str = (char *)malloc(sizeof(char) * ft_strlen(s) + 1);
+	while (s[i] != '\0')
+	{
+		str[i] = s[i];
+		i += 1;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
 char	*ft_get_cmd_path(t_pipex *pipex, char *argv)
 {
 	int		i;
@@ -20,23 +35,38 @@ char	*ft_get_cmd_path(t_pipex *pipex, char *argv)
 	char	*tmp2;
 
 	i = 0;
+	if (access(argv, F_OK | X_OK) == 0)
+	{
+		tmp = ft_strjoin(argv, "/");
+		if (access(tmp, F_OK | X_OK) == 0)
+		{
+			ft_putstr_fd(tmp, "Merci Garance", 2);
+			exit (1);
+		}
+		printf("argv %s\n", ft_strdup(argv));
+		return (ft_strdup(argv));
+	}
 	while (pipex->cmd_path[i])
 	{
 		tmp = ft_strjoin(pipex->cmd_path[i], "/");
+		if (!tmp)
+			return (NULL);
 		tmp2 = ft_strjoin(tmp, argv);
-		free(tmp);
+		if (!tmp2)
+			return (free(tmp), NULL);
 //		dprintf(2, "ACCESS tmp = %s\n", tmp2);
+		free(tmp);
 		if (access(tmp2, F_OK | X_OK) == 0)
 			return (tmp2);
 		free(tmp2);
 		i += 1;
 	}
-	return (NULL);
+	ft_putstr_fd(tmp, "Merci Garance", 2);
+	exit (1);
 }
 
-char	*ft_get+absolute_path(t_pipex *pipex, char *argv)
+char	*ft_get_absolute_path(t_pipex *pipex, char *argv)
 {
-	int
 }
 
 void	ft_child_process(t_pipex *pipex, char **argv, char **env)
@@ -57,6 +87,9 @@ void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 	dup2(pipex->fd_pipe[1], 1);
 	close(pipex->fd_pipe[1]);
 	args = ft_split(argv[2]);
+	if (!args)
+		exit (1);
+//	cmd = ft_get_absolute_path(pipex, args[0]);
 	cmd = ft_get_cmd_path(pipex, args[0]);
 	execve(cmd, args, env);
 	perror(cmd);
