@@ -6,12 +6,11 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/06 19:59:41 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/07 18:08:48 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <stdio.h>
 
 // tester avec path absolu
 char	*ft_get_cmd_path(t_pipex *pipex, char *argv)
@@ -35,38 +34,9 @@ char	*ft_get_cmd_path(t_pipex *pipex, char *argv)
 	return (NULL);
 }
 
-void	ft_print_error_infile(t_pipex *pipex, char **argv)
+char	*ft_get+absolute_path(t_pipex *pipex, char *argv)
 {
-	if (!ft_strcmp(argv[2], "ls"))
-	{
-		ft_putstr_fd(argv[2], ": cannot access '", 2);
-		ft_putstr_fd(argv[1], "': No such file or directory",  2);
-	}
-	else if (!ft_strcmp(argv[2], "cp") || (!ft_strcmp(argv[2], "mv")))
-	{
-		ft_putstr_fd(argv[2], ": cannot stat '", 2);
-		ft_putstr_fd(argv[1], "': No such file or directory",  2);
-	}
-	else if (!ft_strcmp(argv[2], "cat") || !(ft_strcmp(argv[2], "wc")) || !ft_strcmp(argv[2], "cd"))
-	{
-		ft_putstr_fd(argv[2], ": ", 2);
-		ft_putstr_fd(argv[1], ": No such file or directory",  2);
-	}
-	else if (!ft_strcmp(argv[2], "rm"))
-	{
-		ft_putstr_fd(argv[2], ": cannot remove '", 2);
-		ft_putstr_fd(argv[1], "': No such file or directory",  2);
-	}
-	else if (!ft_strcmp(argv[2], "rmdir"))
-	{
-		ft_putstr_fd(argv[2], ": failed to remove '", 2);
-		ft_putstr_fd(argv[1], ": No such file or directory",  2);
-	}
-	ft_printf(2, "\n");
-	close(pipex->fd_pipe[0]);
-	close(pipex->fd_pipe[1]);
-	ft_free_tab(pipex->cmd_path);
-	exit (EXIT_FAILURE);
+	int
 }
 
 void	ft_child_process(t_pipex *pipex, char **argv, char **env)
@@ -80,7 +50,7 @@ void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 	dprintf(2, "id premier enfant : %d\n", getpid());
 	infile = open(argv[1], O_RDONLY, 0755);
 	if (infile == -1)
-		ft_print_error_infile(pipex, argv);
+		perror(argv[1]);
 	dup2(infile, 0);
 	close(infile);
 	close(pipex->fd_pipe[0]);
@@ -88,24 +58,10 @@ void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 	close(pipex->fd_pipe[1]);
 	args = ft_split(argv[2]);
 	cmd = ft_get_cmd_path(pipex, args[0]);
-	if (!cmd)
-	{
-		ft_putstr_fd(argv[2], ": command not found\n", 2);
-		exit (1);
-	}
 	execve(cmd, args, env);
+	perror(cmd);
 	ft_printf(2, "Error in child process 1\n");
 	exit (1);
-}
-
-void	ft_print_error_outfile(t_pipex *pipex, char **argv)
-{
-	ft_putstr_fd(argv[4], ": Is a directory", 2);
-	ft_printf(2, "\n");
-	close(pipex->fd_pipe[0]);
-	close(pipex->fd_pipe[1]);
-	ft_free_tab(pipex->cmd_path);
-	exit (EXIT_FAILURE);
 }
 
 void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
@@ -119,7 +75,7 @@ void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
 	{
 		outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0755);
 		if (outfile == -1)
-			ft_print_error_outfile(pipex, argv);
+			perror(argv[4]);
 		dup2(outfile, 1);
 		close(outfile);
 		close(pipex->fd_pipe[1]);
@@ -127,12 +83,8 @@ void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
 		close(pipex->fd_pipe[0]);
 		args = ft_split(argv[3]);
 		cmd = ft_get_cmd_path(pipex, args[0]);
-		if (!cmd)
-		{
-			ft_putstr_fd(argv[3], ": command not found\n", 2);
-			exit (1);
-		}
 		execve(cmd, args, env);
+		perror(cmd);
 		ft_printf(2, "Error in child process 2\n");
 		exit (1);
 	}
