@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:53 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/07 17:47:55 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/08 12:59:52 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,5 @@ void	ft_print_missing_param(void);
 void	ft_print_header(void);
 void	ft_print_footer(void);
 void	ft_putstr_fd(char *str, char *error, int fd);
+char	*ft_get_cmd_path(t_pipex *pipex, char *argv);
 #endif

@@ -6,68 +6,11 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/07 19:28:25 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/08 13:11:28 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-char	*ft_strdup(char *s)
-{
-	int	i;
-	char	*str;
-
-	i = 0;
-	str = (char *)malloc(sizeof(char) * ft_strlen(s) + 1);
-	while (s[i] != '\0')
-	{
-		str[i] = s[i];
-		i += 1;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-char	*ft_get_cmd_path(t_pipex *pipex, char *argv)
-{
-	int		i;
-	char	*tmp;
-	char	*tmp2;
-
-	i = 0;
-	if (access(argv, F_OK | X_OK) == 0)
-	{
-		tmp = ft_strjoin(argv, "/");
-		if (access(tmp, F_OK | X_OK) == 0)
-		{
-			ft_putstr_fd(tmp, "Merci Garance", 2);
-			exit (1);
-		}
-		printf("argv %s\n", ft_strdup(argv));
-		return (ft_strdup(argv));
-	}
-	while (pipex->cmd_path[i])
-	{
-		tmp = ft_strjoin(pipex->cmd_path[i], "/");
-		if (!tmp)
-			return (NULL);
-		tmp2 = ft_strjoin(tmp, argv);
-		if (!tmp2)
-			return (free(tmp), NULL);
-//		dprintf(2, "ACCESS tmp = %s\n", tmp2);
-		free(tmp);
-		if (access(tmp2, F_OK | X_OK) == 0)
-			return (tmp2);
-		free(tmp2);
-		i += 1;
-	}
-	ft_putstr_fd(tmp, "Merci Garance", 2);
-	exit (1);
-}
-
-char	*ft_get_absolute_path(t_pipex *pipex, char *argv)
-{
-}
 
 void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 {
@@ -89,7 +32,6 @@ void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 	args = ft_split(argv[2]);
 	if (!args)
 		exit (1);
-//	cmd = ft_get_absolute_path(pipex, args[0]);
 	cmd = ft_get_cmd_path(pipex, args[0]);
 	execve(cmd, args, env);
 	perror(cmd);
@@ -102,7 +44,7 @@ void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
 	int		outfile;
 	char	*cmd;
 	char	**args;
-
+	
 	pipex->cmd2 = fork();
 	if (pipex->cmd2 == 0)
 	{
@@ -131,11 +73,12 @@ int	main(int argc, char **argv, char **env)
 {
 	t_pipex	pipex;
 
-	(void)env;
 	if (argc != 5)
 		ft_print_missing_param();
 	ft_memset(&pipex, 0, sizeof(t_pipex));
 	pipex.env_path = ft_strncmp(env, "PATH=", 5);
+	if (!pipex.env_path)
+		exit (1);
 	pipex.cmd_path = ft_split(pipex.env_path);
 	if (pipe(pipex.fd_pipe) == -1)
 		return (-1);
@@ -149,4 +92,3 @@ int	main(int argc, char **argv, char **env)
 	ft_free_tab(pipex.cmd_path);
 	return (0);
 }
-
