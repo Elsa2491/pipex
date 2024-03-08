@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/08 13:11:28 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/08 20:35:29 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 	char	**args;
 
 	i = 0;
-	dprintf(2, "id premier enfant : %d\n", getpid());
+	//	dprintf(2, "id premier enfant : %d\n", getpid());
 	infile = open(argv[1], O_RDONLY, 0755);
 	if (infile == -1)
 		perror(argv[1]);
@@ -29,13 +29,19 @@ void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 	close(pipex->fd_pipe[0]);
 	dup2(pipex->fd_pipe[1], 1);
 	close(pipex->fd_pipe[1]);
+	if (ft_is_space_only(argv[2]))
+	{
+		ft_putstr_fd(argv[2], 2);
+		ft_putstr_fd(" : command not found\n", 2);
+		exit (1);
+	}
 	args = ft_split(argv[2]);
 	if (!args)
 		exit (1);
 	cmd = ft_get_cmd_path(pipex, args[0]);
 	execve(cmd, args, env);
 	perror(cmd);
-	ft_printf(2, "Error in child process 1\n");
+	//	ft_printf(2, "Error in child process 1\n");
 	exit (1);
 }
 
@@ -44,7 +50,7 @@ void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
 	int		outfile;
 	char	*cmd;
 	char	**args;
-	
+
 	pipex->cmd2 = fork();
 	if (pipex->cmd2 == 0)
 	{
@@ -56,11 +62,17 @@ void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
 		close(pipex->fd_pipe[1]);
 		dup2(pipex->fd_pipe[0], 0);
 		close(pipex->fd_pipe[0]);
+		if (ft_is_space_only(argv[3]))
+		{
+			ft_putstr_fd(argv[2], 2);
+			ft_putstr_fd(" : command not found\n", 2);
+			exit (1);
+		}
 		args = ft_split(argv[3]);
 		cmd = ft_get_cmd_path(pipex, args[0]);
 		execve(cmd, args, env);
 		perror(cmd);
-		ft_printf(2, "Error in child process 2\n");
+		//		ft_printf(2, "Error in child process 2\n");
 		exit (1);
 	}
 	close(pipex->fd_pipe[0]);

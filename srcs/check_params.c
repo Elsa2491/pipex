@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 22:12:16 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/05 21:57:56 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/08 13:45:58 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,6 @@ char	*ft_strncmp(char **env, char *str, int n)
 		i += 1;
 	}
 	return (NULL);
-}
-
-int	ft_strcmp(char *argv, char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!argv || !str)
-		return (0);
-	while (argv[i] == str[i] && argv[i] != '\0')
-		i += 1;
-	return (argv[i] - str[i]);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
