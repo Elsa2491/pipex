@@ -85,7 +85,7 @@ int	main(int argc, char **argv, char **env)
 {
 	t_pipex	pipex;
 
-	if (argc < 5 || argc > 5)
+	if (argc != 5)
 		ft_print_missing_param();
 	ft_memset(&pipex, 0, sizeof(t_pipex));
 	pipex.env_path = ft_strncmp(env, "PATH=", 5);
