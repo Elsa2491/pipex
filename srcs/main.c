@@ -15,11 +15,11 @@
 void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 {
 	int		infile;
-	int		i;
+//	int		i;
 	char	*cmd;
 	char	**args;
 
-	i = 0;
+//	i = 0;
 	//	dprintf(2, "id premier enfant : %d\n", getpid());
 	infile = open(argv[1], O_RDONLY, 0755);
 	if (infile == -1)
@@ -85,7 +85,7 @@ int	main(int argc, char **argv, char **env)
 {
 	t_pipex	pipex;
 
-	if (argc != 5)
+	if (argc < 5 || argc > 5)
 		ft_print_missing_param();
 	ft_memset(&pipex, 0, sizeof(t_pipex));
 	pipex.env_path = ft_strncmp(env, "PATH=", 5);
