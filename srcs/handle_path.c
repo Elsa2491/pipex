@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/08 20:36:56 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/11 15:08:48 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	ft_is_space_only(char *str)
 	return (1);
 }
 
+/*
 int	ft_is_slash_only(char *str)
 {
 	int	i;
@@ -55,17 +56,41 @@ int	ft_is_slash_only(char *str)
 	}
 	return (1);
 }
+
+
+int	ft_is_at_least_one_slash(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == 47)
+			return (1);
+		i += 1;
+	}
+	return (0);
+}
+*/ 
 static char	*ft_get_absolute_path(t_pipex *pipex, char *argv)
 {
 	char	*tmp;
 
 	(void)pipex;
-	if (ft_is_slash_only(argv))
+/*	if (ft_is_slash_only(argv))
 	{
+		ft_printf(1, "is_only_slash %d\n", ft_is_slash_only(argv));
 		ft_putstr_fd(argv, 2);
 		ft_putstr_fd(": is a directory\n", 2);
 		exit (1);
 	}
+	if (ft_is_at_least_one_slash(argv))
+	{
+		ft_printf(1, "is_at_least_ONE_slash %d\n", ft_is_at_least_one_slash(argv));
+		ft_putstr_fd(argv, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		exit (1);
+	}*/
 	tmp = ft_strjoin(argv, "/");
 	if (access(tmp, F_OK | X_OK) == 0)
 	{

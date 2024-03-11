@@ -6,21 +6,61 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/08 20:35:29 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/11 15:10:38 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+int	ft_is_spaces_and_slash(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] != 32 && str[i] != 47)
+			return (0);
+		i += 1;
+	}
+	return (1);
+}
+
+int     ft_is_slash_only(char *str)
+{
+        int     i;
+
+        i = 0;
+        while (str[i] != '\0')
+        {
+                if (str[i] != 47) 
+                        return (0);
+                i += 1;
+        }
+        return (1);
+}
+
+int     ft_is_at_least_one_slash(char *str)
+{
+        int     i;
+
+        i = 0;
+        while (str[i] != '\0')
+        {
+                if (str[i] == 47)
+                        return (1);
+                i += 1;
+        }
+        return (0);
+}
+
 void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 {
 	int		infile;
-//	int		i;
 	char	*cmd;
 	char	**args;
 
-//	i = 0;
-	//	dprintf(2, "id premier enfant : %d\n", getpid());
+	//dprintf(2, "id premier enfant : %d\n", getpid());
 	infile = open(argv[1], O_RDONLY, 0755);
 	if (infile == -1)
 		perror(argv[1]);
@@ -35,6 +75,13 @@ void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 		ft_putstr_fd(" : command not found\n", 2);
 		exit (1);
 	}
+/*	if (ft_is_spaces_and_slash(argv[2]))
+	{
+		ft_putstr_fd(argv[2], 2);
+		ft_putstr_fd(" : No such file or directory\n", 2);
+		ft_putstr_fd("je rentre dans spaces_slash\n", 2);
+		exit (1);
+	}*/
 	args = ft_split(argv[2]);
 	if (!args)
 		exit (1);
@@ -44,6 +91,8 @@ void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 	//	ft_printf(2, "Error in child process 1\n");
 	exit (1);
 }
+
+
 
 void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
 {
@@ -64,8 +113,21 @@ void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
 		close(pipex->fd_pipe[0]);
 		if (ft_is_space_only(argv[3]))
 		{
-			ft_putstr_fd(argv[2], 2);
+			ft_putstr_fd(argv[3], 2);
 			ft_putstr_fd(" : command not found\n", 2);
+			exit (1);
+		}
+	 	if (ft_is_slash_only(argv[3]))
+                {
+                        ft_putstr_fd(argv[3], 2);
+                        ft_putstr_fd(" : Is a directory\n", 2);
+                        exit (1);
+                }
+
+		if (ft_is_at_least_one_slash(argv[3]))
+		{
+			ft_putstr_fd(argv[3], 2);
+			ft_putstr_fd(" : No such file or directory\n", 2);
 			exit (1);
 		}
 		args = ft_split(argv[3]);
