@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/11 18:06:40 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/11 19:36:04 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,33 @@ int	main(int argc, char **argv, char **env)
 	if (!pipex.env_path)
 		exit (1);
 	pipex.cmd_path = ft_split(pipex.env_path);
+	if (!pipex.cmd_path)
+	{
+		close(pipex.fd_pipe[0]);
+		close(pipex.fd_pipe[1]);
+		waitpid(pipex.cmd1, NULL, 0);
+		waitpid(pipex.cmd2, NULL, 0);
+		exit (1);
+	}
 	if (pipe(pipex.fd_pipe) == -1)
+	{
+		close(pipex.fd_pipe[0]);
+		close(pipex.fd_pipe[1]);
+		waitpid(pipex.cmd1, NULL, 0);
+		waitpid(pipex.cmd2, NULL, 0);
+		ft_free_tab(pipex.cmd_path);
 		return (-1);
+	}
 	pipex.cmd1 = fork();
 	if (pipex.cmd1 == -1)
+	{
+		close(pipex.fd_pipe[0]);
+		close(pipex.fd_pipe[1]);
+		waitpid(pipex.cmd1, NULL, 0);
+		waitpid(pipex.cmd2, NULL, 0);
+		ft_free_tab(pipex.cmd_path);
 		return (-1);
+	}
 	if (pipex.cmd1 == 0)
 		ft_child_process(&pipex, argv, env);
 	else if (pipex.cmd1 > 0)
