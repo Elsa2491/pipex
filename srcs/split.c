@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:27 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/06 19:32:32 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/11 17:50:27 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static char	*ft_fill_tab(char *str)
 	s = (char *)malloc(sizeof(char) * size + 1);
 	if (!s)
 		return (NULL);
-	while (str[i] != '\0' && str[i] != 58 && str[i] != 32 && !(str[i] >= 9 && str[i] <= 13))
+	while (str[i] != '\0' && str[i] != 58 && str[i] != 32
+		&& !(str[i] >= 9 && str[i] <= 13))
 	{
 		s[i] = str[i];
 		i += 1;
@@ -33,7 +34,6 @@ static char	*ft_fill_tab(char *str)
 	s[i] = '\0';
 	return (s);
 }
-
 
 static char	**ft_return_tab(char *str)
 {
@@ -44,7 +44,6 @@ static char	**ft_return_tab(char *str)
 		return (NULL);
 	return (tab);
 }
-
 
 void	*ft_free_tab(char **tab)
 {
@@ -79,10 +78,10 @@ char	**ft_split(char *str)
 		if (!(str[i] >= 9 && str[i] <= 13) && str[i] != 32 && str[i] != 58)
 		{
 			tab[j] = ft_fill_tab(&str[i]);
-			if (!tab[j])
+			if (!tab[j++])
 				return (ft_free_tab(tab));
-			j += 1;
-			while (str[i] != '\0' && str[i] != 58 && str[i] != 32 && !(str[i] >= 9 && str[i] <= 13))
+			while (str[i] != '\0' && str[i] != 58 && str[i] != 32
+				&& !(str[i] >= 9 && str[i] <= 13))
 				i += 1;
 		}
 		else

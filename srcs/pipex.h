@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:53 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/08 20:34:42 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/11 18:03:19 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int		ft_strlen(char *str);
 int		ft_count_words(char *str);
 int		ft_count_size_of_word(char *str);
 char	*ft_strncmp(char **env, char *str, int n);
-int	ft_strcmp(char *argv, char *str);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strcat(char *dest, char *src);
 void	*ft_memset(void *s, int c, unsigned int n);
@@ -49,8 +48,9 @@ void	*ft_free_tab(char **tab);
 void	ft_print_missing_param(void);
 void	ft_print_header(void);
 void	ft_print_footer(void);
-//void	ft_putstr_fd(char *str, char *error, int fd);
 void	ft_putstr_fd(char *str, int fd);
-char	*ft_get_cmd_path(t_pipex *pipex, char *argv);
+char	*ft_get_cmd_path(t_pipex *pipex, char *argv, char **cmds_path);
 int		ft_is_space_only(char *str);
+int		ft_is_slash_only(char *str);
+int		ft_is_at_least_one_slash(char *str);
 #endif

@@ -11,7 +11,7 @@ RESET 	:= \e[0m
 MAKEFLAGS    +=    --no-print-directory
 
 SRCS = main.c split.c size_functions.c init_functions.c check_params.c handle_errors.c \
-	error_messages.c pattern_messages.c handle_path.c
+	error_messages.c pattern_messages.c handle_path.c handle_spaces_and_slashes.c
 
 #BONUS_SRCS = main_bonus.c 
 
