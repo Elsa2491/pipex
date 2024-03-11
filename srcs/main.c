@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/11 19:36:04 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/11 19:49:45 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int	main(int argc, char **argv, char **env)
 	if (!pipex.env_path)
 		exit (1);
 	pipex.cmd_path = ft_split(pipex.env_path);
+	pipex.cmd_path = NULL;
 	if (!pipex.cmd_path)
 	{
 		close(pipex.fd_pipe[0]);
