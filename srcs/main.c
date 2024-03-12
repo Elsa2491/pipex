@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/12 10:57:24 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/12 11:22:15 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 	dprintf(1, "id premier enfant : %d\n", getpid());
 	infile = open(argv[1], O_RDONLY, 0755);
 	if (infile == -1)
+	{
 		perror(argv[1]);
+		ft_free_tab(pipex->cmd_path);
+		exit (1);
+	}
 	dup2(infile, 0);
 	close(infile);
 	close(pipex->fd_pipe[0]);
@@ -61,7 +65,11 @@ void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
 	{
 		outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0755);
 		if (outfile == -1)
+		{
 			perror(argv[4]);
+			ft_free_tab(pipex->cmd_path);
+			exit (1);
+		}
 		dup2(outfile, 1);
 		close(outfile);
 		close(pipex->fd_pipe[1]);
