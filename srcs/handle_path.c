@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/12 11:04:08 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/12 11:07:43 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*ft_strdup(char *s)
 	return (str);
 }
 
-static char	*ft_get_absolute_path(t_pipex *pipex, char *argv, char **commands_path)
+static char	*ft_get_absolute_path(t_pipex *pipex, char *argv, char **path)
 {
 	char	*tmp;
 
@@ -41,7 +41,7 @@ static char	*ft_get_absolute_path(t_pipex *pipex, char *argv, char **commands_pa
 		ft_putstr_fd(argv, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 		free(tmp);
-		ft_free_tab(commands_path);
+		ft_free_tab(path);
 		ft_free_tab(pipex->cmd_path);
 		exit (1);
 	}
@@ -49,15 +49,15 @@ static char	*ft_get_absolute_path(t_pipex *pipex, char *argv, char **commands_pa
 	return (ft_strdup(argv));
 }
 
-void	ft_free(t_pipex *pipex, char *argv, char **commands_path)
+void	ft_free(t_pipex *pipex, char *argv, char **path)
 {
 	ft_putstr_fd(argv, 2);
 	ft_putstr_fd(": command not found\n", 2);
-	ft_free_tab(commands_path);
+	ft_free_tab(path);
 	ft_free_tab(pipex->cmd_path);
 }
 
-char	*ft_get_cmd_path(t_pipex *pipex, char *argv, char **cmds_path)
+char	*ft_get_cmd_path(t_pipex *pipex, char *argv, char **path)
 {
 	int		i;
 	char	*tmp;
@@ -65,7 +65,7 @@ char	*ft_get_cmd_path(t_pipex *pipex, char *argv, char **cmds_path)
 
 	i = 0;
 	if (access(argv, F_OK | X_OK) == 0)
-		return (ft_get_absolute_path(pipex, argv, cmds_path));
+		return (ft_get_absolute_path(pipex, argv, path));
 	while (pipex->cmd_path[i])
 	{
 		tmp = ft_strjoin(pipex->cmd_path[i], "/");
@@ -80,6 +80,6 @@ char	*ft_get_cmd_path(t_pipex *pipex, char *argv, char **cmds_path)
 		free(tmp2);
 		i += 1;
 	}
-	ft_free(pipex, argv, cmds_path);
+	ft_free(pipex, argv, path);
 	exit (1);
 }
