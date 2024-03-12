@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/12 11:07:43 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/12 16:21:04 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	*ft_get_absolute_path(t_pipex *pipex, char *argv, char **path)
 	return (ft_strdup(argv));
 }
 
-void	ft_free(t_pipex *pipex, char *argv, char **path)
+static void	ft_free(t_pipex *pipex, char *argv, char **path)
 {
 	ft_putstr_fd(argv, 2);
 	ft_putstr_fd(": command not found\n", 2);
