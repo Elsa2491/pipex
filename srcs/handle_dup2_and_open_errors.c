@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:42:39 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/12 16:00:30 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/12 21:06:46 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ void	ft_handle_dup2_error(t_pipex *pipex)
 {
 	ft_putstr_fd("dup2 failed\n", 2);
 	ft_free_tab(pipex->cmd_path);
-	if (close(pipex->outfile) == -1)
-		ft_handle_close_error(pipex);
-	if (close(pipex->fd_pipe[0]) == -1)
-		ft_handle_close_error(pipex);
-	if (close(pipex->fd_pipe[1]) == -1)
-		ft_handle_close_error(pipex);
+	if (pipex->infile != -1 && close(pipex->infile) == -1)
+		ft_putstr_fd("infile close failed\n", 2);
+	if (pipex->outfile != -1 && close(pipex->outfile) == -1)
+		ft_putstr_fd("outfile close failed\n", 2);
+	if (pipex->fd_pipe[0] != -1 && close(pipex->fd_pipe[0]) == -1)
+		ft_putstr_fd("fd_pipe[0] close failed\n", 2);
+	if (pipex->fd_pipe[1] != -1 && close(pipex->fd_pipe[1]) == -1)
+		ft_putstr_fd("fd_pipe[1] close failed\n", 2);
 	exit (1);
 }

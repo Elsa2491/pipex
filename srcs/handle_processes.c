@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/12 16:43:05 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/12 22:29:13 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 	cmd2_path = ft_get_cmd_path(pipex, cmd2[0], cmd2);
 	execve(cmd2_path, cmd2, env);
 	perror(cmd2_path);
+	free(cmd2_path);
+	ft_free_tab(pipex->cmd_path);
 	exit (1);
 }
 
@@ -85,6 +87,8 @@ void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
 	char	*cmd1_path;
 
 	pipex->cmd2 = fork();
+	if (pipex->cmd2 == -1)
+		ft_handle_fork_error(pipex);
 	if (pipex->cmd2 == 0)
 	{
 		pipex->outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0755);
@@ -96,8 +100,8 @@ void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
 			exit (1);
 		}
 		cmd1_path = ft_get_cmd_path(pipex, cmd1[0], cmd1);
-		execve(cmd1_path, cmd1, env);
-		perror(cmd1_path);
+		(execve(cmd1_path, cmd1, env), perror(cmd1_path), free(cmd1_path));
+		ft_free_tab(pipex->cmd_path);
 		exit (1);
 	}
 	ft_close_processes(pipex);

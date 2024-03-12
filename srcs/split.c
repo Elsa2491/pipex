@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:27 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/11 19:20:27 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/12 22:11:11 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	*ft_free_tab(char **tab)
 	int	i;
 
 	i = 0;
+	if (!tab)
+		return (NULL);
 	while (tab[i])
 	{
 		free(tab[i]);

@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/12 16:21:04 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/12 22:31:28 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static char	*ft_get_absolute_path(t_pipex *pipex, char *argv, char **path)
 {
 	char	*tmp;
 
-	(void)pipex;
 	tmp = ft_strjoin(argv, "/");
 	if (!tmp)
 		return (NULL);
@@ -66,7 +65,7 @@ char	*ft_get_cmd_path(t_pipex *pipex, char *argv, char **path)
 	i = 0;
 	if (access(argv, F_OK | X_OK) == 0)
 		return (ft_get_absolute_path(pipex, argv, path));
-	while (pipex->cmd_path[i])
+	while (pipex->cmd_path && pipex->cmd_path[i])
 	{
 		tmp = ft_strjoin(pipex->cmd_path[i], "/");
 		if (!tmp)
