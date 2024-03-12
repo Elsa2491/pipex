@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/12 11:22:15 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/12 11:52:22 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 	{
 		perror(argv[1]);
 		ft_free_tab(pipex->cmd_path);
+		close(infile);
+		close(pipex->fd_pipe[0]);
+		close(pipex->fd_pipe[1]);
 		exit (1);
 	}
 	dup2(infile, 0);
@@ -68,6 +71,9 @@ void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
 		{
 			perror(argv[4]);
 			ft_free_tab(pipex->cmd_path);
+			close(outfile);
+			close(pipex->fd_pipe[1]);
+			close(pipex->fd_pipe[0]);
 			exit (1);
 		}
 		dup2(outfile, 1);
