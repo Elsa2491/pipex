@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:53 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/11 18:03:19 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/12 10:59:59 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,4 @@ void	ft_putstr_fd(char *str, int fd);
 char	*ft_get_cmd_path(t_pipex *pipex, char *argv, char **cmds_path);
 int		ft_is_space_only(char *str);
 int		ft_is_slash_only(char *str);
-int		ft_is_at_least_one_slash(char *str);
 #endif

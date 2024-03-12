@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/11 19:49:45 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/12 10:57:24 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,6 @@ void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 	{
 		ft_putstr_fd(argv[2], 2);
 		ft_putstr_fd(" : Is a directory\n", 2);
-		ft_free_tab(pipex->cmd_path);
-		exit (1);
-	}
-	if (ft_is_at_least_one_slash(argv[2]))
-	{
-		ft_putstr_fd(argv[2], 2);
-		ft_putstr_fd(" : No such file or directory\n", 2);
 		ft_free_tab(pipex->cmd_path);
 		exit (1);
 	}
@@ -88,13 +81,6 @@ void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
 			ft_free_tab(pipex->cmd_path);
 			exit (1);
 		}
-		if (ft_is_at_least_one_slash(argv[3]))
-		{
-			ft_putstr_fd(argv[3], 2);
-			ft_putstr_fd(" : No such file or directory\n", 2);
-			ft_free_tab(pipex->cmd_path);
-			exit (1);
-		}
 		cmd1 = ft_split(argv[3]);
 		cmd1_path = ft_get_cmd_path(pipex, cmd1[0], cmd1);
 		execve(cmd1_path, cmd1, env);
@@ -118,7 +104,6 @@ int	main(int argc, char **argv, char **env)
 	if (!pipex.env_path)
 		exit (1);
 	pipex.cmd_path = ft_split(pipex.env_path);
-	pipex.cmd_path = NULL;
 	if (!pipex.cmd_path)
 	{
 		close(pipex.fd_pipe[0]);

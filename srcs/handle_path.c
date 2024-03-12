@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/11 18:02:49 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/12 11:04:08 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,20 @@ static char	*ft_strdup(char *s)
 	return (str);
 }
 
-static char	*ft_get_absolute_path(t_pipex *pipex, char *argv)
+static char	*ft_get_absolute_path(t_pipex *pipex, char *argv, char **commands_path)
 {
 	char	*tmp;
 
 	(void)pipex;
 	tmp = ft_strjoin(argv, "/");
+	if (!tmp)
+		return (NULL);
 	if (access(tmp, F_OK | X_OK) == 0)
 	{
 		ft_putstr_fd(argv, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
+		free(tmp);
+		ft_free_tab(commands_path);
 		ft_free_tab(pipex->cmd_path);
 		exit (1);
 	}
@@ -45,11 +49,11 @@ static char	*ft_get_absolute_path(t_pipex *pipex, char *argv)
 	return (ft_strdup(argv));
 }
 
-void	ft_free(t_pipex *pipex, char *argv, char **args)
+void	ft_free(t_pipex *pipex, char *argv, char **commands_path)
 {
 	ft_putstr_fd(argv, 2);
 	ft_putstr_fd(": command not found\n", 2);
-	ft_free_tab(args);
+	ft_free_tab(commands_path);
 	ft_free_tab(pipex->cmd_path);
 }
 
@@ -61,7 +65,7 @@ char	*ft_get_cmd_path(t_pipex *pipex, char *argv, char **cmds_path)
 
 	i = 0;
 	if (access(argv, F_OK | X_OK) == 0)
-		return (ft_get_absolute_path(pipex, argv));
+		return (ft_get_absolute_path(pipex, argv, cmds_path));
 	while (pipex->cmd_path[i])
 	{
 		tmp = ft_strjoin(pipex->cmd_path[i], "/");
