@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:27 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/12 22:11:11 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/13 01:49:27 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ static char	**ft_return_tab(char *str)
 {
 	char	**tab;
 
+	if (!str)
+		return (NULL);
 	tab = (char **)malloc(sizeof(char *) * (ft_count_words(str) + 1));
 	if (!tab)
 		return (NULL);
@@ -65,29 +67,29 @@ void	*ft_free_tab(char **tab)
 
 char	**ft_split(char *str)
 {
-	int		i;
 	int		j;
 	char	**tab;
 
-	i = 0;
 	j = 0;
 	if (!str)
 		return (NULL);
 	tab = ft_return_tab(str);
+	if (!tab)
+		return (NULL);
 	tab[ft_count_words(str)] = NULL;
-	while (str[i] != '\0')
+	while (*str != '\0')
 	{
-		if (!(str[i] >= 9 && str[i] <= 13) && str[i] != 32 && str[i] != 58)
+		if (!(*str >= 9 && *str <= 13) && *str != 32 && *str != 58)
 		{
-			tab[j] = ft_fill_tab(&str[i]);
+			tab[j] = ft_fill_tab(str);
 			if (!tab[j++])
 				return (ft_free_tab(tab));
-			while (str[i] != '\0' && str[i] != 58 && str[i] != 32
-				&& !(str[i] >= 9 && str[i] <= 13))
-				i += 1;
+			while (*str != '\0' && *str != 58 && *str != 32
+				&& !(*str >= 9 && *str <= 13))
+				str += 1;
 		}
 		else
-			i += 1;
+			str += 1;
 	}
 	return (tab);
 }

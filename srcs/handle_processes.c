@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/12 22:29:13 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/13 01:45:19 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_close_processes(t_pipex *pipex)
 	close(pipex->fd_pipe[0]);
 	close(pipex->fd_pipe[1]);
 	waitpid(pipex->cmd1, NULL, 0);
-	waitpid(pipex->cmd2, NULL, 0);
+	waitpid(pipex->cmd2, &pipex->code_status, 0);
 }
 
 void	ft_handle_child(t_pipex *pipex, char **argv)

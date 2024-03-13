@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:53 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/12 16:08:33 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/13 01:42:43 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_pipex
 	int		exec;
 	int		infile;
 	int		outfile;
+	int		code_status;
 	pid_t	cmd1;
 	pid_t	cmd2;
 	char	*env_path;
