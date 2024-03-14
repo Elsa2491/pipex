@@ -6,11 +6,24 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/13 01:44:41 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/14 19:15:07 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	*ft_memset(void *s, int c, unsigned int n)
+{
+	unsigned char 	*pipex;
+
+	pipex = s;
+	while (n > 0)
+	{
+		*(pipex + n - 1) = c;
+		n -= 1;
+	}
+	return (pipex);
+}
 
 int	main(int argc, char **argv, char **env)
 {
