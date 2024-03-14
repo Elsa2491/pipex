@@ -6,11 +6,23 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 19:31:34 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/11 17:40:11 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/14 19:05:36 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	ft_print_header(void)
+{
+	ft_printf(2, "\n\e[2m ####################################\e[0m");
+	ft_printf(2, "\e[2m####################################\n\n\e[0m");
+}
+
+void	ft_print_footer(void)
+{
+	ft_print_header();
+	exit(EXIT_FAILURE);
+}
 
 void	ft_print_missing_param(void)
 {
