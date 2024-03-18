@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/13 01:45:19 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/18 04:27:31 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,18 @@
 
 void	ft_close_processes(t_pipex *pipex)
 {
+	int	status;
+	
 	close(pipex->fd_pipe[0]);
 	close(pipex->fd_pipe[1]);
-	waitpid(pipex->cmd1, NULL, 0);
-	waitpid(pipex->cmd2, &pipex->code_status, 0);
+	while (errno != ECHILD)
+	{
+		if (pipex->cmd2 == waitpid(-1, &status, 0))
+		{
+			if (WIFEXITED(status))
+				pipex->code_status = WEXITSTATUS(status);
+		}
+	}
 }
 
 void	ft_handle_child(t_pipex *pipex, char **argv)
@@ -102,7 +110,6 @@ void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
 		cmd1_path = ft_get_cmd_path(pipex, cmd1[0], cmd1);
 		(execve(cmd1_path, cmd1, env), perror(cmd1_path), free(cmd1_path));
 		ft_free_tab(pipex->cmd_path);
-		exit (1);
+		exit (2);
 	}
-	ft_close_processes(pipex);
 }

@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:15:12 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/13 03:35:32 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/13 17:03:51 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ void	ft_handle_pipe_error(t_pipex *pipex)
 	exit (1);
 }
 
-void	ft_handle_fork_error(t_pipex *pipex)
+void	ft_handle_fork_error(t_pipex *pipex, int i)
 {
 	close(pipex->fd_pipe[0]);
 	close(pipex->fd_pipe[1]);
-	waitpid(pipex->cmd1, NULL, 0);
+	waitpid(pipex->cmd1[i], NULL, 0);
 	ft_free_tab(pipex->cmd_path);
 	exit (1);
 }

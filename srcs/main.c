@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/14 19:19:22 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/18 04:27:42 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	*ft_memset(void *s, int c, unsigned int n)
 	return (pipex);
 }
 
+// changer cmd1 et cmd2 par pid
 int	main(int argc, char **argv, char **env)
 {
 	t_pipex	pipex;
@@ -51,5 +52,6 @@ int	main(int argc, char **argv, char **env)
 	else if (pipex.cmd1 > 0)
 		ft_parent_process(&pipex, argv, env);
 	ft_free_tab(pipex.cmd_path);
+	ft_close_processes(&pipex);
 	return (pipex.code_status);
 }

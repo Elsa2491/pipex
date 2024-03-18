@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/12 14:42:27 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/18 02:17:56 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_handle_space_error(char **argv, t_pipex *pipex)
 	ft_putstr_fd(*argv, 2);
 	ft_putstr_fd(" : command not found\n", 2);
 	ft_free_tab(pipex->cmd_path);
-	exit (1);
+	exit (127);
 }
 
 void	ft_handle_slash_error(char **argv, t_pipex *pipex)

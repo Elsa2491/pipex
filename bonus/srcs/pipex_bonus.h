@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:53 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/13 04:18:46 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/15 01:23:17 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,22 @@
 
 typedef struct s_pipex
 {
-	int		pid_tab[1024];
-	int		all_cmd;
+	char	**all_argvs;
 	int		cmd_nb;
-	int		fd_pipe[2];
-	int		exec;
 	int		infile;
 	int		outfile;
 	int		code_status;
-	pid_t	cmd1;
+	pid_t	cmd1[1024];
+	pid_t	prev;
 	pid_t	cmd2;
 	char	*env_path;
 	char	**cmd_path;
 }		t_pipex;
 
-void	ft_close_processes(t_pipex *pipex);
+void	ft_close_processes(t_pipex *pipex, int i);
 void	ft_child_process(t_pipex *pipex, char **argv, char **env);
 void	ft_handle_parent(t_pipex *pipex, char **argv);
-void	ft_parent_process(t_pipex *pipex, char **argv, char **env);
+void	ft_parent_process(t_pipex *pipex, char **argv, char **env, int i);
 
 int		ft_strlen(char *str);
 int		ft_count_words(char *str);
@@ -58,7 +56,7 @@ char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strcat(char *dest, char *src);
 void	*ft_memset(void *s, int c, unsigned int n);
 
-void	ft_print_missing_param(void);
+void	ft_print_too_much_params(void);
 void	ft_print_header(void);
 void	ft_print_footer(void);
 
@@ -72,7 +70,7 @@ void	ft_putstr_fd(char *str, int fd);
 void	ft_handle_file_error(char **argv, t_pipex *pipex);
 void	ft_handle_cmd_path_error(t_pipex *pipex);
 void	ft_handle_pipe_error(t_pipex *pipex);
-void	ft_handle_fork_error(t_pipex *pipex);
+void	ft_handle_fork_error(t_pipex *pipex, int i);
 void	ft_handle_close_error(t_pipex *pipex);
 void	ft_handle_dup2_error(t_pipex *pipex);
 #endif

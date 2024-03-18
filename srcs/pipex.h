@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:53 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/13 01:42:43 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/18 02:54:13 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <errno.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <fcntl.h>
@@ -29,7 +30,6 @@
 typedef struct s_pipex
 {
 	int		fd_pipe[2];
-	int		exec;
 	int		infile;
 	int		outfile;
 	int		code_status;

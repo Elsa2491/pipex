@@ -6,18 +6,19 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/13 04:09:57 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/13 17:05:07 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	ft_close_processes(t_pipex *pipex)
+void	ft_close_processes(t_pipex *pipex, int i)
 {
 	close(pipex->fd_pipe[0]);
 	close(pipex->fd_pipe[1]);
-	waitpid(pipex->cmd1, NULL, 0);
-	waitpid(pipex->cmd2, &pipex->code_status, 0);
+//	waitpid(pipex->cmd1, NULL, 0);
+//	waitpid(pipex->cmd2, &pipex->code_status, 0);
+	waitpid(pipex->cmd1[i], &pipex->code_status, 0);
 }
 
 void	ft_handle_child(t_pipex *pipex, char **argv)
@@ -81,14 +82,14 @@ void	ft_handle_parent(t_pipex *pipex, char **argv)
 		ft_handle_slash_error(&argv[3], pipex);
 }
 
-void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
+void	ft_parent_process(t_pipex *pipex, char **argv, char **env, int i)
 {
 	char	**cmd1;
 	char	*cmd1_path;
 
 	pipex->cmd2 = fork();
 	if (pipex->cmd2 == -1)
-		ft_handle_fork_error(pipex);
+		ft_handle_fork_error(pipex, i);
 	if (pipex->cmd2 == 0)
 	{
 		pipex->outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0755);
@@ -104,5 +105,5 @@ void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
 		ft_free_tab(pipex->cmd_path);
 		exit (1);
 	}
-	ft_close_processes(pipex);
+//	ft_close_processes(pipex);
 }
