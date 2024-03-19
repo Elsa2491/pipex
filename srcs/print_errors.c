@@ -1,16 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_messages.c                                   :+:      :+:    :+:   */
+/*   print_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 19:31:34 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/14 19:05:36 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/19 13:33:25 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	ft_putstr_fd(char *str, int fd)
+{
+	if (!str)
+		return ;
+	write(fd, str, ft_strlen(str));
+}
 
 void	ft_print_header(void)
 {

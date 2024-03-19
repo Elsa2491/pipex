@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:53 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/18 02:54:13 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/19 17:02:19 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,10 @@ int		ft_count_size_of_word(char *str);
 char	**ft_split(char *str);
 void	*ft_free_tab(char **tab);
 
-char	*ft_strncmp(char **env, char *str, int n);
+char	*ft_strdup(char *s);
+int		ft_strchr(char *str, char c);
+void	ft_get_env(t_pipex *pipex, char **env);
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strcat(char *dest, char *src);
 void	*ft_memset(void *s, int c, unsigned int n);
 
 void	ft_print_missing_param(void);
@@ -60,6 +61,11 @@ void	ft_print_header(void);
 void	ft_print_footer(void);
 
 char	*ft_get_cmd_path(t_pipex *pipex, char *argv, char **cmds_path);
+char	*ft_get_absolute_path(t_pipex *pipex, char *argv, char **path);
+void	ft_handle_no_file_or_dir(char *argv);
+void	ft_handle_directory(t_pipex *pipex, char *argv, char **path);
+void	ft_handle_rights(t_pipex *pipex, char *argv, char **path, char *tmp2);
+void	ft_free(t_pipex *pipex, char *argv, char **path, char *error);
 int		ft_is_space_only(char *str);
 int		ft_is_slash_only(char *str);
 void	ft_handle_space_error(char **argv, t_pipex *pipex);

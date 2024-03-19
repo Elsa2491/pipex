@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_params.c                                     :+:      :+:    :+:   */
+/*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 22:12:16 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/11 16:19:40 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/19 15:27:15 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <stdio.h>
 
-char	*ft_strncmp(char **env, char *str, int n)
+static char	*ft_strncmp(char **env, char *str, int n)
 {
 	int	i;
 	int	j;
@@ -38,28 +38,15 @@ char	*ft_strncmp(char **env, char *str, int n)
 	return (NULL);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+void	ft_get_env(t_pipex *pipex, char **env)
 {
-	int		i;
-	int		j;
-	int		size;
-	char	*str;
-
-	i = 0;
-	j = 0;
-	if (!s1 || !s2)
-		return (NULL);
-	size = ft_strlen(s1) + ft_strlen(s2);
-	str = (char *)malloc(sizeof(char) * (size + 1));
-	if (!str)
-		return (NULL);
-	while (s1[i] != '\0')
+	pipex->env_path = ft_strncmp(env, "PATH=", 5);
+	if (pipex->env_path)
 	{
-		str[i] = s1[i];
-		i += 1;
+		pipex->cmd_path = ft_split(pipex->env_path);
+		if (!pipex->cmd_path)
+			return ;
 	}
-	while (s2[j] != '\0')
-		str[i++] = s2[j++];
-	str[i] = '\0';
-	return (str);
+	else
+		pipex->cmd_path = NULL;
 }

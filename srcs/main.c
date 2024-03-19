@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/18 04:27:42 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/19 15:29:37 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,7 @@ int	main(int argc, char **argv, char **env)
 	if (argc != 5)
 		ft_print_missing_param();
 	ft_memset(&pipex, 0, sizeof(t_pipex));
-	pipex.env_path = ft_strncmp(env, "PATH=", 5);
-	if (pipex.env_path)
-	{
-		pipex.cmd_path = ft_split(pipex.env_path);
-		if (!pipex.cmd_path)
-			return (1);
-	}
-	else
-		pipex.cmd_path = NULL;
+	ft_get_env(&pipex, env);
 	if (pipe(pipex.fd_pipe) == -1)
 		ft_handle_pipe_error(&pipex);
 	pipex.cmd1 = fork();

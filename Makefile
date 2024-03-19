@@ -10,9 +10,9 @@ GREEN 	:= \e[32m
 RESET 	:= \e[0m
 MAKEFLAGS    +=    --no-print-directory
 
-SRCS = main.c split.c size_functions.c check_params.c handle_errors.c \
-	error_messages.c handle_path.c handle_spaces_and_slashes.c \
-	handle_dup2_and_open_errors.c handle_processes.c
+SRCS = main.c split.c size_functions.c get_env.c handle_errors.c \
+	print_errors.c handle_path.c handle_access.c handle_spaces_and_slashes.c \
+	handle_processes.c string_functions.c \
 
 BONUS_SRCS = main_bonus.c split_bonus.c size_functions_bonus.c init_functions_bonus.c \
 	check_params_bonus.c handle_errors_bonus.c error_messages_bonus.c \

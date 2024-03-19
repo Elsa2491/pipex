@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/18 04:27:31 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/19 13:11:12 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_close_processes(t_pipex *pipex)
 {
 	int	status;
-	
+
 	close(pipex->fd_pipe[0]);
 	close(pipex->fd_pipe[1]);
 	while (errno != ECHILD)
