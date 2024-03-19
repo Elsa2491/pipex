@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_errors.c                                    :+:      :+:    :+:   */
+/*   handle_errors_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:15:12 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/19 18:20:47 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/19 17:43:24 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	ft_handle_file_error(char **argv, t_pipex *pipex)
 {
@@ -27,7 +27,6 @@ void	ft_handle_file_error(char **argv, t_pipex *pipex)
 
 void	ft_handle_pipe_error(t_pipex *pipex)
 {
-	ft_putstr_fd("pipe failed\n", 2);
 	close(pipex->fd_pipe[0]);
 	close(pipex->fd_pipe[1]);
 	ft_free_tab(pipex->cmd_path);
@@ -36,7 +35,6 @@ void	ft_handle_pipe_error(t_pipex *pipex)
 
 void	ft_handle_fork_error(t_pipex *pipex)
 {
-	ft_putstr_fd("fork failed\n", 2);
 	close(pipex->fd_pipe[0]);
 	close(pipex->fd_pipe[1]);
 	waitpid(pipex->cmd1, NULL, 0);
