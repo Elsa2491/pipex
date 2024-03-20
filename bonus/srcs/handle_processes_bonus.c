@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/20 19:30:56 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/20 21:27:25 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,17 @@
 
 void	ft_close_processes(t_pipex *pipex)
 {
-	int	status;
-
 	close(pipex->prev_pipe[0]);
 	close(pipex->prev_pipe[1]);
 	close(pipex->curr_pipe[0]);
 	close(pipex->curr_pipe[1]);
+}
+
+void	ft_waitpid(t_pipex *pipex)
+{
+	int	status;
+
+	ft_close_processes(pipex);
 	while (errno != ECHILD)
 	{
 		if (pipex->cmd2 == waitpid(-1, &status, 0))
@@ -32,6 +37,9 @@ void	ft_close_processes(t_pipex *pipex)
 
 void	ft_handle_child(t_pipex *pipex, char **argv)
 {
+	pipex->infile = open(argv[1], O_RDONLY, 0755);
+	if (pipex->infile == -1)
+		ft_handle_file_error(&argv[1], pipex);
 	if (dup2(pipex->infile, STDIN_FILENO) == -1)
 		ft_handle_dup2_error(pipex);
 	if (close(pipex->infile) == -1)
@@ -120,7 +128,11 @@ void	ft_handle_processes(t_pipex *pipex, char **argv, char **env)
 			ft_handle_dup2_error(pipex);
 		if (dup2(pipex->curr_pipe[1], STDOUT_FILENO) == -1)
 			ft_handle_dup2_error(pipex);
-		ft_free_tab(pipex->cmd_path);
+		if (ft_is_space_only(argv[pipex->i]))
+			ft_handle_space_error(&argv[pipex->i], pipex);
+		if (ft_is_slash_only(argv[pipex->i]))
+			ft_handle_slash_error(&argv[pipex->i], pipex);
+
 	}
 	ft_close_processes(pipex);
 	ft_child_process(pipex, argv, env);

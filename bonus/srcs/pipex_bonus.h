@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:53 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/20 19:31:19 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/20 21:27:41 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_pipex
 
 void	ft_handle_processes(t_pipex *pipex, char **argv, char **env);
 void	ft_close_processes(t_pipex *pipex);
+void	ft_waitpid(t_pipex *pipex);
 void	ft_child_process(t_pipex *pipex, char **argv, char **env);
 void	ft_handle_parent(t_pipex *pipex, char **argv);
 void	ft_parent_process(t_pipex *pipex, char **argv, char **env);
