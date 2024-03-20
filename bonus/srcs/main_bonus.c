@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/19 18:31:11 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/20 15:26:43 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,14 @@ int	main(int argc, char **argv, char **env)
 	if (argc < 5)
 		ft_print_missing_param(); // change msg
 	ft_memset(&pipex, 0, sizeof(t_pipex));
+	pipex.argc = argc;
 	ft_get_env(&pipex, env);
-	pipex.infile = open(argv[1], O_RDONLY, 0755)
+	pipex.infile = open(argv[1], O_RDONLY, 0755);
 	if (pipex.infile == -1)
-		ft_handle_file_error(argv[1], pipex);
+		ft_handle_file_error(&argv[1], &pipex);
 	if (pipe(pipex.prev_pipe) == -1)
 		ft_handle_pipe_error(&pipex);
-	while (pipex.i < argc - 3)
+	while (pipex.i < pipex.argc - 3)
 	{
 		if (pipe(pipex.curr_pipe) == -1)
 			ft_handle_pipe_error(&pipex);
@@ -47,12 +48,19 @@ int	main(int argc, char **argv, char **env)
 		if (pipex.cmd1 == -1)
 			ft_handle_fork_error(&pipex);
 		if (pipex.cmd1 == 0)
-			ft_child_process(&pipex, argv, env);
+			ft_redirections(&pipex, argv, env);
 		else if (pipex.cmd1 > 0)
-			ft_parent_process(&pipex, argv, env);
+		{
+			close(pipex.prev_pipe[0]);
+			close(pipex.prev_pipe[1]);
+			pipex.prev_pipe[0] = pipex.curr_pipe[0];
+			pipex.prev_pipe[1] = pipex.curr_pipe[1];
+		}
 		pipex.i += 1;
 	}
 	ft_free_tab(pipex.cmd_path);
-	ft_close_processes(&pipex);
+	pipex.i = 0;
+	while (pipex.i++ < argc - 3)
+		ft_close_processes(&pipex);
 	return (pipex.code_status);
 }

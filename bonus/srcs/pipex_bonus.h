@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:53 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/19 18:29:32 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/20 15:01:50 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_pipex
 	int		curr_pipe[2];
 	int		prev_pipe[2];
 	int		i;
+	int		argc;
 	int		infile;
 	int		outfile;
 	int		code_status;
@@ -41,8 +42,9 @@ typedef struct s_pipex
 	char	**cmd_path;
 }		t_pipex;
 
+void	ft_redirections(t_pipex *pipex, char **argv, char **env);
 void	ft_close_processes(t_pipex *pipex);
-void	ft_child_process(t_pipex *pipex, int argc, char **argv, char **env);
+void	ft_child_process(t_pipex *pipex, char **argv, char **env);
 void	ft_handle_parent(t_pipex *pipex, char **argv);
 void	ft_parent_process(t_pipex *pipex, char **argv, char **env);
 
