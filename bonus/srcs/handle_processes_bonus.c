@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/20 23:50:33 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/20 23:57:26 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	ft_child_process(t_pipex *pipex, char **argv, char **env)
 	char	**cmd2;
 	char	*cmd2_path;
 
-	cmd2 = ft_split(argv[pipex->i + 2]);
+	cmd2 = ft_split(argv[pipex->i + 2 + pipex->is_here_doc]);
 	if (!cmd2)
 	{
 		ft_free_tab(pipex->cmd_path);
@@ -111,7 +111,9 @@ void	ft_handle_parent(t_pipex *pipex, char **argv)
 
 void	ft_handle_processes(t_pipex *pipex, char **argv, char **env)
 {
-	if (pipex->i == 0 + pipex->is_here_doc)
+	printf("ici\n");
+	printf("%d\n", pipex->is_here_doc);
+	if (pipex->i == 0)
 		ft_handle_child(pipex, argv);
 	else if (pipex->i == pipex->argc - 4 + pipex->is_here_doc)
 		ft_handle_parent(pipex, argv);
