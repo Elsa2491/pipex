@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/20 23:33:32 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/20 23:45:59 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,12 @@ int	main(int argc, char **argv, char **env)
 	char	*line;
 	char	*tmp;
 
+	ft_memset(&pipex, 0, sizeof(t_pipex));
+	pipex.argc = argc;
 	if (!ft_strcmp(argv[1], "here_doc"))
 	{
 		pipex.here_doc = open(argv[1], O_WRONLY | O_CREAT | O_TRUNC, 0755);
+		pipex.is_here_doc = 1;
 		if (pipex.here_doc == -1)
 			ft_handle_file_error(&argv[1], &pipex);
 		tmp = ft_strjoin(argv[2], "\n");
@@ -57,8 +60,6 @@ int	main(int argc, char **argv, char **env)
 //	else if (argc < 5)
 	else
 		ft_print_missing_param(); // change msg
-	ft_memset(&pipex, 0, sizeof(t_pipex));
-	pipex.argc = argc;
 	ft_get_env(&pipex, env);
 	if (pipe(pipex.prev_pipe) == -1)
 		ft_handle_pipe_error(&pipex);

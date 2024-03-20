@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/20 23:37:33 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/20 23:50:33 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_waitpid(t_pipex *pipex)
 
 void	ft_handle_child(t_pipex *pipex, char **argv)
 {
-	if (!ft_strcmp(argv[1], "here_doc"))
+	if (pipex->is_here_doc)
 	{
 		pipex->here_doc = open(argv[1], O_RDONLY, 0755);
 		if (pipex->here_doc == -1)
@@ -111,9 +111,9 @@ void	ft_handle_parent(t_pipex *pipex, char **argv)
 
 void	ft_handle_processes(t_pipex *pipex, char **argv, char **env)
 {
-	if (pipex->i == 0)
+	if (pipex->i == 0 + pipex->is_here_doc)
 		ft_handle_child(pipex, argv);
-	else if (pipex->i == pipex->argc - 4)
+	else if (pipex->i == pipex->argc - 4 + pipex->is_here_doc)
 		ft_handle_parent(pipex, argv);
 	else
 	{
@@ -121,10 +121,10 @@ void	ft_handle_processes(t_pipex *pipex, char **argv, char **env)
 			ft_handle_dup2_error(pipex);
 		if (dup2(pipex->curr_pipe[1], STDOUT_FILENO) == -1)
 			ft_handle_dup2_error(pipex);
-		if (ft_is_space_only(argv[pipex->i]))
-			ft_handle_space_error(&argv[pipex->i], pipex);
-		if (ft_is_slash_only(argv[pipex->i]))
-			ft_handle_slash_error(&argv[pipex->i], pipex);
+		if (ft_is_space_only(argv[pipex->i + pipex->is_here_doc]))
+			ft_handle_space_error(&argv[pipex->i + pipex->is_here_doc], pipex);
+		if (ft_is_slash_only(argv[pipex->i + pipex->is_here_doc]))
+			ft_handle_slash_error(&argv[pipex->i + pipex->is_here_doc], pipex);
 
 	}
 	ft_close_processes(pipex);
