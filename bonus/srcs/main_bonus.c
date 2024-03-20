@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/20 15:26:43 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/20 19:43:23 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	main(int argc, char **argv, char **env)
 		if (pipex.cmd1 == -1)
 			ft_handle_fork_error(&pipex);
 		if (pipex.cmd1 == 0)
-			ft_redirections(&pipex, argv, env);
+			ft_handle_processes(&pipex, argv, env);
 		else if (pipex.cmd1 > 0)
 		{
 			close(pipex.prev_pipe[0]);
@@ -58,6 +58,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		pipex.i += 1;
 	}
+	ft_close_processes(&pipex);
 	ft_free_tab(pipex.cmd_path);
 	pipex.i = 0;
 	while (pipex.i++ < argc - 3)
