@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:53 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/20 21:27:41 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/20 23:15:25 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <fcntl.h>
-# include "../../../printf/srcs/ft_printf.h"
+# include "../../printf/srcs/ft_printf.h"
+# include "get_next_line.h"
 
 # define WARNING	 " → Warning\n"
 # define CORRECT_ARGV		" Please enter correct arguments:\n"
@@ -33,6 +34,7 @@ typedef struct s_pipex
 	int		prev_pipe[2];
 	int		i;
 	int		argc;
+	int		here_doc;
 	int		infile;
 	int		outfile;
 	int		code_status;
@@ -83,4 +85,6 @@ void	ft_handle_pipe_error(t_pipex *pipex);
 void	ft_handle_fork_error(t_pipex *pipex);
 void	ft_handle_close_error(t_pipex *pipex);
 void	ft_handle_dup2_error(t_pipex *pipex);
+
+int	ft_strcmp(char *argv, char *str);
 #endif

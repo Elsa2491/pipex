@@ -17,6 +17,7 @@ SRCS = main.c split.c size_functions.c get_env.c handle_errors.c \
 BONUS_SRCS = main_bonus.c split_bonus.c size_functions_bonus.c get_env_bonus.c handle_errors_bonus.c \
 	print_errors_bonus.c handle_path_bonus.c handle_access_bonus.c \
 	handle_spaces_and_slashes_bonus.c handle_processes_bonus.c string_functions_bonus.c \
+	here_doc_bonus.c get_next_line.c get_next_line_utils.c
 
 OBJ = $(addprefix $(OBJS_PATH), $(SRCS:.c=.o))
 BONUS_OBJ = $(addprefix $(BONUS_OBJS_PATH), $(BONUS_SRCS:.c=.o))

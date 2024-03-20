@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/20 21:41:47 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/20 22:11:04 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,26 +95,6 @@ void	ft_handle_parent(t_pipex *pipex, char **argv)
 	if (ft_is_slash_only(argv[pipex->argc - 1]))
 		ft_handle_slash_error(&argv[pipex->argc - 1], pipex);
 }
-
-/*
-void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
-{
-	char	**cmd1;
-	char	*cmd1_path;
-
-	pipex->outfile = open(argv[pipex->argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0755);
-	ft_handle_parent(pipex, argv);
-	cmd1 = ft_split(argv[pipex->argc - 1]);
-	if (!cmd1)
-	{
-		ft_free_tab(pipex->cmd_path);
-		exit (1);
-	}
-	cmd1_path = ft_get_cmd_path(pipex, cmd1[0], cmd1);
-	(execve(cmd1_path, cmd1, env), perror(cmd1_path), free(cmd1_path));
-	ft_free_tab(pipex->cmd_path);
-}
-*/
 
 void	ft_handle_processes(t_pipex *pipex, char **argv, char **env)
 {

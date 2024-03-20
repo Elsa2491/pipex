@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/19 13:11:12 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/20 23:08:47 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	ft_handle_parent(t_pipex *pipex, char **argv)
 		ft_handle_file_error(&argv[4], pipex);
 	if (dup2(pipex->outfile, 1) == -1)
 		ft_handle_dup2_error(pipex);
-	if (close(pipex->outfile) == 1)
+	if (close(pipex->outfile) == -1)
 		ft_handle_close_error(pipex);
 	if (close(pipex->fd_pipe[1]) == -1)
 		ft_handle_close_error(pipex);
