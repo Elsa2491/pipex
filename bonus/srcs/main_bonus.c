@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/20 21:33:07 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/20 21:44:01 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	main(int argc, char **argv, char **env)
 		if (pipe(pipex.curr_pipe) == -1)
 			ft_handle_pipe_error(&pipex);
 		pipex.cmd1 = fork();
-		pipex.cmd1 = -1;
 		if (pipex.cmd1 == -1)
 			ft_handle_fork_error(&pipex);
 		if (pipex.cmd1 == 0)

@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/20 21:27:25 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/20 21:41:47 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,5 +135,6 @@ void	ft_handle_processes(t_pipex *pipex, char **argv, char **env)
 
 	}
 	ft_close_processes(pipex);
+	ft_waitpid(pipex);
 	ft_child_process(pipex, argv, env);
 }
