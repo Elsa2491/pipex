@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/20 22:11:04 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/20 23:37:33 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,26 @@ void	ft_waitpid(t_pipex *pipex)
 
 void	ft_handle_child(t_pipex *pipex, char **argv)
 {
-	pipex->infile = open(argv[1], O_RDONLY, 0755);
-	if (pipex->infile == -1)
-		ft_handle_file_error(&argv[1], pipex);
-	if (dup2(pipex->infile, STDIN_FILENO) == -1)
-		ft_handle_dup2_error(pipex);
-	if (close(pipex->infile) == -1)
-		ft_handle_close_error(pipex);
+	if (!ft_strcmp(argv[1], "here_doc"))
+	{
+		pipex->here_doc = open(argv[1], O_RDONLY, 0755);
+		if (pipex->here_doc == -1)
+			ft_handle_file_error(&argv[1], pipex);
+		if (dup2(pipex->here_doc, STDIN_FILENO) == -1)
+			ft_handle_dup2_error(pipex);
+		if (close(pipex->here_doc) == -1)
+			ft_handle_close_error(pipex);
+	}
+	else
+	{
+		pipex->infile = open(argv[1], O_RDONLY, 0755);
+		if (pipex->infile == -1)
+			ft_handle_file_error(&argv[1], pipex);
+		if (dup2(pipex->infile, STDIN_FILENO) == -1)
+			ft_handle_dup2_error(pipex);
+		if (close(pipex->infile) == -1)
+			ft_handle_close_error(pipex);
+	}
 	if (close(pipex->prev_pipe[0]) == -1)
 		ft_handle_close_error(pipex);
 	if (dup2(pipex->curr_pipe[1], STDOUT_FILENO) == -1)

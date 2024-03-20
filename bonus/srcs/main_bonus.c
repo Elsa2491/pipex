@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/20 23:30:42 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/03/20 23:33:32 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int	main(int argc, char **argv, char **env)
 		free(tmp);
 		if (close(pipex.here_doc) == -1)
 			ft_handle_file_error(&argv[1], &pipex);
-		pipex.here_doc = open(argv[1], O_RDONLY, 0755);
-		if (pipex.here_doc == -1)
-			ft_handle_file_error(&argv[1], &pipex);
+	//	pipex.here_doc = open(argv[1], O_RDONLY, 0755);
+	//	if (pipex.here_doc == -1)
+	//		ft_handle_file_error(&argv[1], &pipex);
 	}
 //	else if (argc < 5)
 	else
