@@ -25,7 +25,6 @@ void	*ft_memset(void *s, int c, unsigned int n)
 	return (pipex);
 }
 
-// changer cmd1 et cmd2 par pid
 int	main(int argc, char **argv, char **env)
 {
 	t_pipex	pipex;
@@ -36,13 +35,13 @@ int	main(int argc, char **argv, char **env)
 	ft_get_env(&pipex, env);
 	if (pipe(pipex.fd_pipe) == -1)
 		ft_handle_pipe_error(&pipex);
-	pipex.cmd1 = fork();
-	if (pipex.cmd1 == -1)
+	pipex.pid1 = fork();
+	if (pipex.pid1 == -1)
 		ft_handle_fork_error(&pipex);
-	if (pipex.cmd1 == 0)
-		ft_child_process(&pipex, argv, env);
-	else if (pipex.cmd1 > 0)
-		ft_parent_process(&pipex, argv, env);
+	if (pipex.pid1 == 0)
+		ft_exec_cmd1(&pipex, argv, env);
+	else if (pipex.pid1 > 0)
+		ft_exec_cmd2(&pipex, argv, env);
 	ft_free_tab(pipex.cmd_path);
 	ft_close_processes(&pipex);
 	return (pipex.code_status);

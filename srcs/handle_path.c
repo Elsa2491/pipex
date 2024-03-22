@@ -43,10 +43,8 @@ char	*ft_get_absolute_path(t_pipex *pipex, char *argv, char **path)
 
 static int	ft_is_a_directory(char *argv)
 {
-	int		i;
 	char	*tmp;
 
-	i = 0;
 	tmp = ft_strjoin(argv, "/");
 	if (!tmp)
 		return (1);

@@ -1,6 +1,6 @@
 NAME = pipex
 BONUS_NAME = pipex_bonus
-PRINTF = ./printf/libftprintf.a
+PRINTF = ../printf/libftprintf.a
 CFLAGS = -Wall -Wextra -Werror -g
 SRCS_PATH = srcs/
 OBJS_PATH = objs/
@@ -12,7 +12,7 @@ MAKEFLAGS    +=    --no-print-directory
 
 SRCS = main.c split.c size_functions.c get_env.c handle_errors.c \
 	print_errors.c handle_path.c handle_access.c handle_spaces_and_slashes.c \
-	handle_processes.c string_functions.c \
+	handle_processes.c string_functions.c handle_quotes.c \
 
 BONUS_SRCS = main_bonus.c split_bonus.c size_functions_bonus.c get_env_bonus.c handle_errors_bonus.c \
 	print_errors_bonus.c handle_path_bonus.c handle_access_bonus.c \

@@ -28,7 +28,7 @@ void	ft_handle_directory(t_pipex *pipex, char *argv, char **path)
 void	ft_handle_rights(t_pipex *pipex, char *argv, char **path, char *tmp2)
 {
 	if (tmp2)
-		free(tmp2);
+		free (tmp2);
 	ft_free(pipex, argv, path, "Permission denied\n");
 	exit (126);
 }

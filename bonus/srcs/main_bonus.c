@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **env)
 {
 	t_pipex	pipex;
 	char	*line;
-	char	*tmp;
+	char	*delimiter;
 
 	ft_memset(&pipex, 0, sizeof(t_pipex));
 	pipex.argc = argc;
@@ -40,26 +40,23 @@ int	main(int argc, char **argv, char **env)
 		pipex.is_here_doc = 1;
 		if (pipex.here_doc == -1)
 			ft_handle_file_error(&argv[1], &pipex);
-		tmp = ft_strjoin(argv[2], "\n");
+		delimiter = ft_strjoin(argv[2], "\n");
 		while (1)
 		{
 			ft_putstr_fd("> ", 0);
 			line = get_next_line(0);
-			if (!ft_strcmp(line, tmp))
+			if (!ft_strcmp(line, delimiter))
 				break ;
 			ft_putstr_fd(line, pipex.here_doc);
 		}
 		free(line);
-		free(tmp);
+		free(delimiter);
 		if (close(pipex.here_doc) == -1)
 			ft_handle_file_error(&argv[1], &pipex);
-	//	pipex.here_doc = open(argv[1], O_RDONLY, 0755);
-	//	if (pipex.here_doc == -1)
-	//		ft_handle_file_error(&argv[1], &pipex);
+		pipex.i += 1;
 	}
-//	else if (argc < 5)
-	else
-		ft_print_missing_param(); // change msg
+	else if (argc < 5)
+		ft_print_missing_param();
 	ft_get_env(&pipex, env);
 	if (pipe(pipex.prev_pipe) == -1)
 		ft_handle_pipe_error(&pipex);
@@ -67,12 +64,12 @@ int	main(int argc, char **argv, char **env)
 	{
 		if (pipe(pipex.curr_pipe) == -1)
 			ft_handle_pipe_error(&pipex);
-		pipex.cmd1 = fork();
-		if (pipex.cmd1 == -1)
+		pipex.pid1 = fork();
+		if (pipex.pid1 == -1)
 			ft_handle_fork_error(&pipex);
-		if (pipex.cmd1 == 0)
+		if (pipex.pid1 == 0)
 			ft_handle_processes(&pipex, argv, env);
-		else if (pipex.cmd1 > 0)
+		else if (pipex.pid1 > 0)
 		{
 			close(pipex.prev_pipe[0]);
 			close(pipex.prev_pipe[1]);
@@ -84,7 +81,7 @@ int	main(int argc, char **argv, char **env)
 	ft_close_processes(&pipex);
 	ft_free_tab(pipex.cmd_path);
 	pipex.i = 0;
-	while (pipex.i++ < argc - 3)
+	while (pipex.i++ < pipex.argc - 3)
 		ft_waitpid(&pipex);
 	return (pipex.code_status);
 }

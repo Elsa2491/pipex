@@ -39,7 +39,7 @@ void	ft_handle_fork_error(t_pipex *pipex)
 	ft_putstr_fd("fork failed\n", 2);
 	close(pipex->fd_pipe[0]);
 	close(pipex->fd_pipe[1]);
-	waitpid(pipex->cmd1, NULL, 0);
+	waitpid(pipex->pid1, NULL, 0);
 	ft_free_tab(pipex->cmd_path);
 	exit (1);
 }

@@ -20,7 +20,7 @@ void	ft_close_processes(t_pipex *pipex)
 	close(pipex->fd_pipe[1]);
 	while (errno != ECHILD)
 	{
-		if (pipex->cmd2 == waitpid(-1, &status, 0))
+		if (pipex->pid2 == waitpid(-1, &status, 0))
 		{
 			if (WIFEXITED(status))
 				pipex->code_status = WEXITSTATUS(status);
@@ -28,7 +28,7 @@ void	ft_close_processes(t_pipex *pipex)
 	}
 }
 
-void	ft_handle_child(t_pipex *pipex, char **argv)
+static void	ft_handle_infile(t_pipex *pipex, char **argv)
 {
 	if (pipex->infile == -1)
 		ft_handle_file_error(&argv[1], pipex);
@@ -48,28 +48,31 @@ void	ft_handle_child(t_pipex *pipex, char **argv)
 		ft_handle_slash_error(&argv[2], pipex);
 }
 
-void	ft_child_process(t_pipex *pipex, char **argv, char **env)
+void	ft_exec_cmd1(t_pipex *pipex, char **argv, char **env)
 {
-	char	**cmd2;
-	char	*cmd2_path;
+	char	**cmd1;
+	char	*cmd1_path;
 
+	cmd1_path = ft_handle_quotes_and_slash(argv[2]);
 	pipex->infile = open(argv[1], O_RDONLY, 0755);
-	ft_handle_child(pipex, argv);
-	cmd2 = ft_split(argv[2]);
-	if (!cmd2)
+	ft_handle_infile(pipex, argv);
+	cmd1 = ft_split(argv[2]);
+	if (!cmd1)
 	{
 		ft_free_tab(pipex->cmd_path);
 		exit (1);
 	}
-	cmd2_path = ft_get_cmd_path(pipex, cmd2[0], cmd2);
-	execve(cmd2_path, cmd2, env);
-	perror(cmd2_path);
-	free(cmd2_path);
+	while (cmd1[pipex->i++])
+		cmd1[pipex->i] = ft_handle_quotes_and_slash(cmd1[pipex->i]);
+	cmd1_path = ft_get_cmd_path(pipex, cmd1[0], cmd1);
+	execve(cmd1_path, cmd1, env);
+	perror(cmd1_path);
+	free(cmd1_path);
 	ft_free_tab(pipex->cmd_path);
 	exit (1);
 }
 
-void	ft_handle_parent(t_pipex *pipex, char **argv)
+static void	ft_handle_outfile(t_pipex *pipex, char **argv)
 {
 	if (pipex->outfile == -1)
 		ft_handle_file_error(&argv[4], pipex);
@@ -89,26 +92,28 @@ void	ft_handle_parent(t_pipex *pipex, char **argv)
 		ft_handle_slash_error(&argv[3], pipex);
 }
 
-void	ft_parent_process(t_pipex *pipex, char **argv, char **env)
+void	ft_exec_cmd2(t_pipex *pipex, char **argv, char **env)
 {
-	char	**cmd1;
-	char	*cmd1_path;
+	char	**cmd2;
+	char	*cmd2_path;
 
-	pipex->cmd2 = fork();
-	if (pipex->cmd2 == -1)
+	pipex->pid2 = fork();
+	if (pipex->pid2 == -1)
 		ft_handle_fork_error(pipex);
-	if (pipex->cmd2 == 0)
+	if (pipex->pid2 == 0)
 	{
 		pipex->outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0755);
-		ft_handle_parent(pipex, argv);
-		cmd1 = ft_split(argv[3]);
-		if (!cmd1)
+		ft_handle_outfile(pipex, argv);
+		cmd2 = ft_split(argv[3]);
+		if (!cmd2)
 		{
 			ft_free_tab(pipex->cmd_path);
 			exit (1);
 		}
-		cmd1_path = ft_get_cmd_path(pipex, cmd1[0], cmd1);
-		(execve(cmd1_path, cmd1, env), perror(cmd1_path), free(cmd1_path));
+		while (cmd2[pipex->i++])
+			cmd2[pipex->i] = ft_handle_quotes_and_slash(cmd2[pipex->i]);
+		cmd2_path = ft_get_cmd_path(pipex, cmd2[0], cmd2);
+		(execve(cmd2_path, cmd2, env), perror(cmd2_path), free(cmd2_path));
 		ft_free_tab(pipex->cmd_path);
 		exit (2);
 	}

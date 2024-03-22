@@ -39,8 +39,8 @@ typedef struct s_pipex
 	int		infile;
 	int		outfile;
 	int		code_status;
-	pid_t	cmd1;
-	pid_t	cmd2;
+	pid_t	pid1;
+	pid_t	pid2;
 	char	*env_path;
 	char	**cmd_path;
 }		t_pipex;
@@ -48,9 +48,6 @@ typedef struct s_pipex
 void	ft_handle_processes(t_pipex *pipex, char **argv, char **env);
 void	ft_close_processes(t_pipex *pipex);
 void	ft_waitpid(t_pipex *pipex);
-void	ft_child_process(t_pipex *pipex, char **argv, char **env);
-void	ft_handle_parent(t_pipex *pipex, char **argv);
-void	ft_parent_process(t_pipex *pipex, char **argv, char **env);
 
 int		ft_strlen(char *str);
 int		ft_count_words(char *str);

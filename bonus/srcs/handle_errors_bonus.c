@@ -37,7 +37,7 @@ void	ft_handle_fork_error(t_pipex *pipex)
 {
 	ft_putstr_fd("fork failed\n", 2);
 	ft_close_processes(pipex);
-	waitpid(pipex->cmd1, NULL, 0);
+	waitpid(pipex->pid1, NULL, 0);
 	ft_free_tab(pipex->cmd_path);
 	exit (1);
 }

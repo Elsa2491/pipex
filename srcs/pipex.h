@@ -32,17 +32,17 @@ typedef struct s_pipex
 	int		fd_pipe[2];
 	int		infile;
 	int		outfile;
+	int		i;
 	int		code_status;
-	pid_t	cmd1;
-	pid_t	cmd2;
+	pid_t	pid1;
+	pid_t	pid2;
 	char	*env_path;
 	char	**cmd_path;
 }		t_pipex;
 
 void	ft_close_processes(t_pipex *pipex);
-void	ft_child_process(t_pipex *pipex, char **argv, char **env);
-void	ft_handle_parent(t_pipex *pipex, char **argv);
-void	ft_parent_process(t_pipex *pipex, char **argv, char **env);
+void	ft_exec_cmd1(t_pipex *pipex, char **argv, char **env);
+void	ft_exec_cmd2(t_pipex *pipex, char **argv, char **env);
 
 int		ft_strlen(char *str);
 int		ft_count_words(char *str);
@@ -70,6 +70,8 @@ int		ft_is_space_only(char *str);
 int		ft_is_slash_only(char *str);
 void	ft_handle_space_error(char **argv, t_pipex *pipex);
 void	ft_handle_slash_error(char **argv, t_pipex *pipex);
+char	*ft_handle_quotes_and_slash(char *argv);
+void	ft_handle_quotes_error(char **argv, t_pipex *pipex);
 
 void	ft_putstr_fd(char *str, int fd);
 void	ft_handle_file_error(char **argv, t_pipex *pipex);
