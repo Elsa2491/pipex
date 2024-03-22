@@ -72,19 +72,24 @@ void	ft_handle_infile(t_pipex *pipex, char **argv)
 
 void	ft_exec_cmds(t_pipex *pipex, char **argv, char **env)
 {
-	char	**cmd2;
-	char	*cmd2_path;
+	char	**cmds;
+	char	*cmds_path;
 
-	cmd2 = ft_split(argv[pipex->i + 2]);
-	if (!cmd2)
+	cmds = ft_split(argv[pipex->i + 2]);
+	if (!cmds)
 	{
 		ft_free_tab(pipex->cmd_path);
 		exit (1);
 	}
-	cmd2_path = ft_get_cmd_path(pipex, cmd2[0], cmd2);
-	execve(cmd2_path, cmd2, env);
-	perror(cmd2_path);
-	free(cmd2_path);
+	while (cmds[pipex->i])
+	{
+		cmds[pipex->i] = ft_handle_quotes_and_slash(cmds[pipex->i]);
+		pipex->i += 1;
+	}
+	cmds_path = ft_get_cmd_path(pipex, cmds[0], cmds);
+	execve(cmds_path, cmds, env);
+	perror(cmds_path);
+	free(cmds_path);
 	ft_free_tab(pipex->cmd_path);
 	exit (1);
 }
@@ -126,7 +131,6 @@ void	ft_handle_processes(t_pipex *pipex, char **argv, char **env)
 			ft_handle_space_error(&argv[pipex->i + pipex->is_here_doc], pipex);
 		if (ft_is_slash_only(argv[pipex->i + pipex->is_here_doc]))
 			ft_handle_slash_error(&argv[pipex->i + pipex->is_here_doc], pipex);
-
 	}
 	ft_close_processes(pipex);
 	ft_waitpid(pipex);

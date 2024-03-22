@@ -25,37 +25,14 @@ void	*ft_memset(void *s, int c, unsigned int n)
 	return (pipex);
 }
 
-// changer cmd1 et cmd2 par pid
 int	main(int argc, char **argv, char **env)
 {
 	t_pipex	pipex;
-	char	*line;
-	char	*delimiter;
 
 	ft_memset(&pipex, 0, sizeof(t_pipex));
 	pipex.argc = argc;
-	if (!ft_strcmp(argv[1], "here_doc"))
-	{
-		pipex.here_doc = open(argv[1], O_WRONLY | O_CREAT | O_TRUNC, 0755);
-		pipex.is_here_doc = 1;
-		if (pipex.here_doc == -1)
-			ft_handle_file_error(&argv[1], &pipex);
-		delimiter = ft_strjoin(argv[2], "\n");
-		while (1)
-		{
-			ft_putstr_fd("> ", 0);
-			line = get_next_line(0);
-			if (!ft_strcmp(line, delimiter))
-				break ;
-			ft_putstr_fd(line, pipex.here_doc);
-		}
-		free(line);
-		free(delimiter);
-		if (close(pipex.here_doc) == -1)
-			ft_handle_file_error(&argv[1], &pipex);
-		pipex.i += 1;
-	}
-	else if (argc < 5)
+	ft_exec_here_doc(&pipex, argv);
+	if (argc < 5)
 		ft_print_missing_param();
 	ft_get_env(&pipex, env);
 	if (pipe(pipex.prev_pipe) == -1)

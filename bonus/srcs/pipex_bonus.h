@@ -45,6 +45,7 @@ typedef struct s_pipex
 	char	**cmd_path;
 }		t_pipex;
 
+void	ft_exec_here_doc(t_pipex *pipex, char **argv);
 void	ft_handle_processes(t_pipex *pipex, char **argv, char **env);
 void	ft_close_processes(t_pipex *pipex);
 void	ft_waitpid(t_pipex *pipex);
@@ -75,6 +76,7 @@ int		ft_is_space_only(char *str);
 int		ft_is_slash_only(char *str);
 void	ft_handle_space_error(char **argv, t_pipex *pipex);
 void	ft_handle_slash_error(char **argv, t_pipex *pipex);
+char	*ft_handle_quotes_and_slash(char *argv);
 
 void	ft_putstr_fd(char *str, int fd);
 void	ft_handle_file_error(char **argv, t_pipex *pipex);
