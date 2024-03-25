@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **env)
 	ft_close_processes(&pipex);
 	ft_free_tab(pipex.cmd_path);
 	pipex.i = 0;
-	while (pipex.i++ < pipex.argc - 3)
+	while (pipex.i++ < argc - 3)
 		ft_waitpid(&pipex);
 	return (pipex.code_status);
 }

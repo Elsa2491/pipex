@@ -50,4 +50,3 @@ void	ft_exec_here_doc(t_pipex *pipex, char **argv)
 		pipex->i += 1;
 	}
 }
-

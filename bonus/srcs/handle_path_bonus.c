@@ -57,21 +57,16 @@ static int	ft_is_a_directory(char *argv)
 	return (0);
 }
 
-char	*ft_handle_path(t_pipex *pipex, char *argv, char **path)
+char	*ft_handle_path(t_pipex *pipex, char *argv, char **path, int i)
 {
 	char	*tmp;
 	char	*tmp2;
 
 	if (pipex->is_here_doc)
-		pipex->i++;
-	printf("i vaut %d\n\n", pipex->i); 
-	while (pipex->cmd_path && pipex->cmd_path[pipex->i])
+		i += 1;
+	while (pipex->cmd_path && pipex->cmd_path[i])
 	{
-
- 		printf("cmd is %s\n", argv);
-	//	printf("cmd_path vaut %s\n", pipex->cmd_path[pipex->i]); 
-	//	printf("dans while i vaut %d\n", pipex->i); 
-		tmp = ft_strjoin(pipex->cmd_path[pipex->i], "/");
+		tmp = ft_strjoin(pipex->cmd_path[i], "/");
 		if (!tmp)
 			return (NULL);
 		tmp2 = ft_strjoin(tmp, argv);
@@ -86,14 +81,17 @@ char	*ft_handle_path(t_pipex *pipex, char *argv, char **path)
 				ft_handle_rights(pipex, argv, path, tmp2);
 		}
 		free(tmp2);
-		pipex->i += 1;
+		i += 1;
 	}
-	ft_free(pipex, argv, path, "command not found 🫣\n");
+	ft_free(pipex, argv, path, "command not found\n");
 	exit (127);
 }
 
 char	*ft_get_cmd_path(t_pipex *pipex, char *argv, char **path)
 {
+	int	i;
+
+	i = 0;
 	if (access(argv, F_OK) == -1 && ft_strchr(argv, '/'))
 		ft_handle_no_file_or_dir(argv);
 	if (access(argv, F_OK) == 0 && (ft_strchr(argv, '/')
@@ -107,5 +105,5 @@ char	*ft_get_cmd_path(t_pipex *pipex, char *argv, char **path)
 		else
 			return (ft_get_absolute_path(pipex, argv, path));
 	}
-	return (ft_handle_path(pipex, argv, path));
+	return (ft_handle_path(pipex, argv, path, i));
 }

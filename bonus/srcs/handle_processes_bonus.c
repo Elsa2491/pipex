@@ -100,10 +100,7 @@ void	ft_handle_processes(t_pipex *pipex, char **argv, char **env)
 	if (pipex->i == 0)
 		ft_handle_infile(pipex, argv);
 	else if (pipex->i == pipex->argc - 4)
-	{
-		printf("Hello, pipex->argc = %d\n", pipex->argc - 4);
 		ft_handle_outfile(pipex, argv);
-	}
 	else
 	{
 		if (dup2(pipex->prev_pipe[0], STDIN_FILENO) == -1)
