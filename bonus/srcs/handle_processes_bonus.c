@@ -12,42 +12,22 @@
 
 #include "pipex_bonus.h"
 
-void	ft_close_processes(t_pipex *pipex)
+void	ft_handle_here_doc(t_pipex *pipex, char **argv)
 {
-	close(pipex->prev_pipe[0]);
-	close(pipex->prev_pipe[1]);
-	close(pipex->curr_pipe[0]);
-	close(pipex->curr_pipe[1]);
-}
-
-void	ft_waitpid(t_pipex *pipex)
-{
-	int	status;
-
-	ft_close_processes(pipex);
-	while (errno != ECHILD)
-	{
-		if (pipex->pid2 == waitpid(-1, &status, 0))
-		{
-			if (WIFEXITED(status))
-				pipex->code_status = WEXITSTATUS(status);
-		}
-	}
+	pipex->here_doc = open(argv[1], O_RDONLY, 0755);
+	if (pipex->here_doc == -1)
+		ft_handle_file_error(&argv[1], pipex);
+	if (dup2(pipex->here_doc, STDIN_FILENO) == -1)
+		ft_handle_dup2_error(pipex);
+	if (close(pipex->here_doc) == -1)
+		ft_handle_close_error(pipex);
+	pipex->i += 1;
 }
 
 void	ft_handle_infile(t_pipex *pipex, char **argv)
 {
 	if (pipex->is_here_doc)
-	{
-		pipex->here_doc = open(argv[1], O_RDONLY, 0755);
-		if (pipex->here_doc == -1)
-			ft_handle_file_error(&argv[1], pipex);
-		if (dup2(pipex->here_doc, STDIN_FILENO) == -1)
-			ft_handle_dup2_error(pipex);
-		if (close(pipex->here_doc) == -1)
-			ft_handle_close_error(pipex);
-		pipex->i += 1;
-	}
+		ft_handle_here_doc(pipex, argv);
 	else
 	{
 		pipex->infile = open(argv[1], O_RDONLY, 0755);
@@ -120,7 +100,10 @@ void	ft_handle_processes(t_pipex *pipex, char **argv, char **env)
 	if (pipex->i == 0)
 		ft_handle_infile(pipex, argv);
 	else if (pipex->i == pipex->argc - 4)
+	{
+		printf("Hello, pipex->argc = %d\n", pipex->argc - 4);
 		ft_handle_outfile(pipex, argv);
+	}
 	else
 	{
 		if (dup2(pipex->prev_pipe[0], STDIN_FILENO) == -1)

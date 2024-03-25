@@ -64,8 +64,13 @@ char	*ft_handle_path(t_pipex *pipex, char *argv, char **path)
 
 	if (pipex->is_here_doc)
 		pipex->i++;
+	printf("i vaut %d\n\n", pipex->i); 
 	while (pipex->cmd_path && pipex->cmd_path[pipex->i])
 	{
+
+ 		printf("cmd is %s\n", argv);
+	//	printf("cmd_path vaut %s\n", pipex->cmd_path[pipex->i]); 
+	//	printf("dans while i vaut %d\n", pipex->i); 
 		tmp = ft_strjoin(pipex->cmd_path[pipex->i], "/");
 		if (!tmp)
 			return (NULL);

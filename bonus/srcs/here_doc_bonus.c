@@ -31,9 +31,9 @@ void	ft_exec_here_doc(t_pipex *pipex, char **argv)
 	if (!ft_strcmp(argv[1], "here_doc"))
 	{   
 		pipex->here_doc = open(argv[1], O_WRONLY | O_CREAT | O_TRUNC, 0755);
-		pipex->is_here_doc = 1;
 		if (pipex->here_doc == -1) 
 			ft_handle_file_error(&argv[1], pipex);
+		pipex->is_here_doc = 1;
 		delimiter = ft_strjoin(argv[2], "\n");
 		while (1) 
 		{   
@@ -48,6 +48,6 @@ void	ft_exec_here_doc(t_pipex *pipex, char **argv)
 		if (close(pipex->here_doc) == -1) 
 			ft_handle_file_error(&argv[1], pipex);
 		pipex->i += 1;
-	}   
+	}
 }
 
