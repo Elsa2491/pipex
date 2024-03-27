@@ -52,6 +52,7 @@ void	ft_handle_infile(t_pipex *pipex, char **argv)
 
 void	ft_exec_cmds(t_pipex *pipex, char **argv, char **env)
 {
+	int	i = 0;
 	char	**cmds;
 	char	*cmds_path;
 
@@ -61,11 +62,8 @@ void	ft_exec_cmds(t_pipex *pipex, char **argv, char **env)
 		ft_free_tab(pipex->cmd_path);
 		exit (1);
 	}
-	while (cmds[pipex->i])
-	{
-		cmds[pipex->i] = ft_handle_quotes_and_slash(cmds[pipex->i]);
-		pipex->i += 1;
-	}
+	while (cmds[i++])
+		cmds[i] = ft_handle_quotes_and_slash(cmds[i]);
 	cmds_path = ft_get_cmd_path(pipex, cmds[0], cmds);
 	execve(cmds_path, cmds, env);
 	perror(cmds_path);
