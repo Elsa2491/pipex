@@ -1,6 +1,6 @@
 NAME = pipex
 BONUS_NAME = pipex_bonus
-PRINTF = ../printf/libftprintf.a
+PRINTF = printf/libftprintf.a
 CFLAGS = -Wall -Wextra -Werror -g
 SRCS_PATH = srcs/
 OBJS_PATH = objs/
@@ -10,11 +10,11 @@ GREEN 	:= \e[32m
 RESET 	:= \e[0m
 MAKEFLAGS    +=    --no-print-directory
 
-SRCS = main.c split.c size_functions.c get_env.c handle_errors.c \
+SRCS = main.c split.c size_functions.c get_path.c handle_errors.c \
 	print_errors.c handle_path.c handle_access.c handle_spaces_and_slashes.c \
 	handle_processes.c string_functions.c handle_quotes_and_slash.c \
 
-BONUS_SRCS = main_bonus.c split_bonus.c size_functions_bonus.c get_env_bonus.c handle_errors_bonus.c \
+BONUS_SRCS = main_bonus.c split_bonus.c size_functions_bonus.c get_path_bonus.c handle_errors_bonus.c \
 	print_errors_bonus.c handle_path_bonus.c handle_access_bonus.c \
 	handle_spaces_and_slashes_bonus.c handle_processes_bonus.c string_functions_bonus.c \
 	here_doc_bonus.c get_next_line.c get_next_line_utils.c handle_quotes_and_slash_bonus.c \
@@ -60,7 +60,7 @@ clean:
 	@echo "\nBonus files objects and associated directories removed\n"
 
 fclean: clean
-	/bin/rm -rf $(NAME) $(BONUS_NAME)
+	/bin/rm -rf $(NAME) $(BONUS_NAME) $(PRINTF)
 	@echo "\npipex destroyed\n"
 
 re: fclean all

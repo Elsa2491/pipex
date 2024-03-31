@@ -53,7 +53,6 @@ void	ft_exec_cmd1(t_pipex *pipex, char **argv, char **env)
 	char	**cmd1;
 	char	*cmd1_path;
 
-	cmd1_path = ft_handle_quotes_and_slash(argv[2]);
 	pipex->infile = open(argv[1], O_RDONLY, 0755);
 	ft_handle_infile(pipex, argv);
 	cmd1 = ft_split(argv[2]);

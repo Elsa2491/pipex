@@ -36,8 +36,12 @@ void	ft_print_missing_param(void)
 	ft_print_header();
 	ft_printf(2, "\033[%dm\e[1m%s\e\033[0m", 31, WARNING);
 	ft_printf(2, " It seems something went wrong.\n");
-	ft_printf(2, " You must enter at least 4 parameters. See the example below:\n");
-	ft_printf(2, "\033[%dm\e[1m%s\e\033[0m", 32, ARROW);
-	ft_printf(2, " \033[%dm./pipex\033[0m infile cmd1 cmd2 cmd3 ... outfile\n", 33);
+	ft_printf(2, " You must enter at least 4 parameters. See the examples below:\n");
+	ft_printf(2, " \tWithout here_doc:\n");
+	ft_printf(2, "\t\033[%dm\e[1m%s\e\033[0m", 32, ARROW);
+	ft_printf(2, " \033[%dm./pipex_bonus\033[0m infile cmd1 cmd2 cmd3 ... outfile\n", 33);
+	ft_printf(2, " \tWith here_doc:\n");
+	ft_printf(2, "\t\033[%dm\e[1m%s\e\033[0m", 32, ARROW);
+	ft_printf(2, " \033[%dm./pipex_bonus\033[0m here_doc delimiter cmd1 cmd2 cmd3 ... outfile\n", 33);
 	ft_print_footer();
 }

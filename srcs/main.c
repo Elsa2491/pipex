@@ -32,7 +32,7 @@ int	main(int argc, char **argv, char **env)
 	if (argc != 5)
 		ft_print_missing_param();
 	ft_memset(&pipex, 0, sizeof(t_pipex));
-	ft_get_env(&pipex, env);
+	ft_get_path(&pipex, env);
 	if (pipe(pipex.fd_pipe) == -1)
 		ft_handle_pipe_error(&pipex);
 	pipex.pid1 = fork();

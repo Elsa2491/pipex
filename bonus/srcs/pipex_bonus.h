@@ -58,7 +58,7 @@ void	*ft_free_tab(char **tab);
 
 char	*ft_strdup(char *s);
 int		ft_strchr(char *str, char c);
-void	ft_get_env(t_pipex *pipex, char **env);
+void	ft_get_path(t_pipex *pipex, char **env);
 char	*ft_strjoin(char *s1, char *s2);
 void	*ft_memset(void *s, int c, unsigned int n);
 
