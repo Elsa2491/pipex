@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/20 23:58:53 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/04/01 17:26:34 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,11 @@ void	ft_handle_infile(t_pipex *pipex, char **argv)
 
 void	ft_exec_cmds(t_pipex *pipex, char **argv, char **env)
 {
-	int	i = 0;
+	int		i;
 	char	**cmds;
 	char	*cmds_path;
 
+	i = 0;
 	cmds = ft_split(argv[pipex->i + 2]);
 	if (!cmds)
 	{
@@ -74,7 +75,8 @@ void	ft_exec_cmds(t_pipex *pipex, char **argv, char **env)
 
 void	ft_handle_outfile(t_pipex *pipex, char **argv)
 {
-	pipex->outfile = open(argv[pipex->argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0755);
+	pipex->outfile = open(argv[pipex->argc - 1],
+			O_WRONLY | O_CREAT | O_TRUNC, 0755);
 	if (pipex->outfile == -1)
 		ft_handle_file_error(&argv[pipex->argc - 1], pipex);
 	if (dup2(pipex->outfile, STDOUT_FILENO) == -1)

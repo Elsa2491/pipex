@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/20 21:21:17 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/04/01 17:30:31 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*ft_handle_path(t_pipex *pipex, char *argv, char **path, int i)
 		i += 1;
 	while (pipex->cmd_path && pipex->cmd_path[i])
 	{
-		tmp = ft_strjoin(pipex->cmd_path[i], "/");
+		tmp = ft_strjoin(pipex->cmd_path[i++], "/");
 		if (!tmp)
 			return (NULL);
 		tmp2 = ft_strjoin(tmp, argv);
@@ -81,7 +81,6 @@ char	*ft_handle_path(t_pipex *pipex, char *argv, char **path, int i)
 				ft_handle_rights(pipex, argv, path, tmp2);
 		}
 		free(tmp2);
-		i += 1;
 	}
 	ft_free(pipex, argv, path, "command not found\n");
 	exit (127);
