@@ -27,7 +27,7 @@ void	ft_waitpid(t_pipex *pipex)
 	ft_close_processes(pipex);
 	while (errno != ECHILD)
 	{
-		if (pipex->pid2 == waitpid(-1, &status, 0))
+		if (pipex->pid1 == waitpid(-1, &status, 0))
 		{
 			if (WIFEXITED(status))
 				pipex->code_status = WEXITSTATUS(status);

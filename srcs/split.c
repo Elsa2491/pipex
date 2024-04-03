@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:27 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/14 23:33:03 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/04/03 21:36:38 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*ft_fill_tab(char *str)
 	s = (char *)malloc(sizeof(char) * size + 1);
 	if (!s)
 		return (NULL);
-	while (str[i] != '\0' && str[i] != 58 && str[i] != 32
+	while (str[i] != '\0' && str[i] != 58 && str[i] != 32 && str[i] != '\''
 		&& !(str[i] >= 9 && str[i] <= 13))
 	{
 		s[i] = str[i];
@@ -65,6 +65,13 @@ void	*ft_free_tab(char **tab)
 	return (NULL);
 }
 
+static int	ft_is_space(char c)
+{
+	if ((c >= 9 && c <= 13) || c == 32)
+		return (1);
+	return (0);
+}
+
 char	**ft_split(char *str)
 {
 	int		j;
@@ -79,13 +86,13 @@ char	**ft_split(char *str)
 	tab[ft_count_words(str)] = NULL;
 	while (*str != '\0')
 	{
-		if (!(*str >= 9 && *str <= 13) && *str != 32 && *str != 58)
+		if (!ft_is_space(*str) && *str != 58 && *str != '\'')
 		{
 			tab[j] = ft_fill_tab(str);
 			if (!tab[j++])
 				return (ft_free_tab(tab));
-			while (*str != '\0' && *str != 58 && *str != 32
-				&& !(*str >= 9 && *str <= 13))
+			while (*str != '\0' && *str != 58 && *str != '\''
+				&& !ft_is_space(*str))
 				str += 1;
 		}
 		else

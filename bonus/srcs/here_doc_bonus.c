@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 22:19:04 by eltouma           #+#    #+#             */
-/*   Updated: 2024/04/01 17:17:56 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/04/03 21:35:40 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ void	ft_exec_here_doc(t_pipex *pipex, char **argv)
 			if (!ft_strcmp(line, delimiter))
 				break ;
 			ft_putstr_fd(line, pipex->here_doc);
+			free(line);
 		}
 		free(line);
 		free(delimiter);
 		if (close(pipex->here_doc) == -1)
 			ft_handle_file_error(&argv[1], pipex);
-		pipex->i += 1;
 	}
 }

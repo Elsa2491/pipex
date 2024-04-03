@@ -6,12 +6,11 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 12:32:17 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/20 22:55:16 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/04/03 14:08:16 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 int	ft_strchr_gnl(t_list *node)
 {

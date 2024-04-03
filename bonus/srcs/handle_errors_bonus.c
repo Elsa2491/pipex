@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:15:12 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/20 21:34:31 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/04/03 21:33:46 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	ft_handle_file_error(char **argv, t_pipex *pipex)
 {
-	ft_putstr_fd("file failed\n", 2);
 	perror(*argv);
 	ft_free_tab(pipex->cmd_path);
 	if (pipex->infile != -1)

@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/04/01 17:26:34 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/04/03 21:35:05 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,12 @@ void	ft_exec_cmds(t_pipex *pipex, char **argv, char **env)
 
 void	ft_handle_outfile(t_pipex *pipex, char **argv)
 {
-	pipex->outfile = open(argv[pipex->argc - 1],
-			O_WRONLY | O_CREAT | O_TRUNC, 0755);
+	if (pipex->here_doc)
+		pipex->outfile = open(argv[pipex->argc - 1],
+				O_WRONLY | O_CREAT | O_APPEND, 0755);
+	else
+		pipex->outfile = open(argv[pipex->argc - 1],
+				O_WRONLY | O_CREAT | O_TRUNC, 0755);
 	if (pipex->outfile == -1)
 		ft_handle_file_error(&argv[pipex->argc - 1], pipex);
 	if (dup2(pipex->outfile, STDOUT_FILENO) == -1)

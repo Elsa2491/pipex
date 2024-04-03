@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/20 23:45:59 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/04/03 16:14:41 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	main(int argc, char **argv, char **env)
 	ft_memset(&pipex, 0, sizeof(t_pipex));
 	pipex.argc = argc;
 	ft_exec_here_doc(&pipex, argv);
-	if (argc < 5)
+	if (argc < 5 || (pipex.here_doc && argc < 6))
 		ft_print_missing_param();
 	ft_get_path(&pipex, env);
 	if (pipe(pipex.prev_pipe) == -1)

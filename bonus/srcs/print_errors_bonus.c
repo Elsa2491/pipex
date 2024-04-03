@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 19:31:34 by eltouma           #+#    #+#             */
-/*   Updated: 2024/04/01 17:24:58 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/04/03 22:18:49 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_print_missing_param(void)
 	ft_print_header();
 	ft_printf(2, "\033[%dm\e[1m%s\e\033[0m", 31, WARNING);
 	ft_printf(2, " It seems something went wrong.\n");
-	ft_printf(2, " You must enter at least 4 parameters.");
+	ft_printf(2, " You must enter at least 4 parameters (5 if here_doc).");
 	ft_printf(2, " See the examples below:\n");
 	ft_printf(2, " \tWithout here_doc:\n");
 	ft_printf(2, "\t\033[%dm\e[1m%s\e\033[0m", 32, ARROW);

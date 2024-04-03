@@ -1,6 +1,6 @@
 NAME = pipex
 BONUS_NAME = pipex_bonus
-PRINTF = printf/libftprintf.a
+PRINTF = ./printf/libftprintf.a
 CFLAGS = -Wall -Wextra -Werror -g
 SRCS_PATH = srcs/
 OBJS_PATH = objs/
@@ -45,6 +45,7 @@ $(NAME): $(OBJS_PATH) $(OBJ)
 
 $(BONUS_NAME): $(BONUS_OBJS_PATH) $(BONUS_OBJ)
 	@echo "\nCompilation bonus part: $(GREEN)success$(RESET)\n"
+	make --no-print-directory -C "./printf"
 	cc $(CFLAGS) $(BONUS_OBJ) -Inc $(PRINTF) -o $(BONUS_NAME)
 	@echo "\nCompilation $(GREEN)finished$(RESET)!\n"
 
@@ -62,6 +63,7 @@ clean:
 fclean: clean
 	/bin/rm -rf $(NAME) $(BONUS_NAME) $(PRINTF)
 	@echo "\npipex destroyed\n"
+	make fclean -C printf
 
 re: fclean all
 
