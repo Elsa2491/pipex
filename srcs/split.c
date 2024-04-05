@@ -6,11 +6,18 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:27 by eltouma           #+#    #+#             */
-/*   Updated: 2024/04/03 21:36:38 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/04/05 21:04:32 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+int	ft_is_space(char c)
+{
+	if ((c >= 9 && c <= 13) || c == 32)
+		return (1);
+	return (0);
+}
 
 static char	*ft_fill_tab(char *str)
 {
@@ -25,8 +32,8 @@ static char	*ft_fill_tab(char *str)
 	s = (char *)malloc(sizeof(char) * size + 1);
 	if (!s)
 		return (NULL);
-	while (str[i] != '\0' && str[i] != 58 && str[i] != 32 && str[i] != '\''
-		&& !(str[i] >= 9 && str[i] <= 13))
+	while (str[i] != '\0' && str[i] != 58 && str[i] != '\''
+		&& !ft_is_space(str[i]))
 	{
 		s[i] = str[i];
 		i += 1;
@@ -63,13 +70,6 @@ void	*ft_free_tab(char **tab)
 	free(tab);
 	tab = NULL;
 	return (NULL);
-}
-
-static int	ft_is_space(char c)
-{
-	if ((c >= 9 && c <= 13) || c == 32)
-		return (1);
-	return (0);
 }
 
 char	**ft_split(char *str)

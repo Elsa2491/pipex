@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:15:31 by eltouma           #+#    #+#             */
-/*   Updated: 2024/04/03 16:16:57 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/04/05 20:17:12 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ int	ft_count_words(char *str)
 	j = 0;
 	while (i < ft_strlen(str))
 	{
-		if (!(str[i] >= 9 && str[i] <= 13) && str[i] != 32 && str[i] != 58)
+		if (!ft_is_space(str[i]) && str[i] != 58 && str[i] != '\'')
 			j += 1;
-		while (!(str[i] >= 9 && str[i] <= 13)
-			&& str[i] != 32 && str[i] != 58 && str[i] != '\0')
+		while (!ft_is_space(str[i]) && str[i] != 58
+			&& str[i] != '\'' && str[i] != '\0')
 			i += 1;
-		while (((str[i] >= 9 && str[i] <= 13) || str[i] == 32 || str[i] == 58)
+		while ((ft_is_space(str[i]) || str[i] == '\'' || str[i] == 58)
 			&& str[i] != '\0')
 			i += 1;
 	}
@@ -48,8 +48,8 @@ int	ft_count_size_of_word(char *str)
 	int	i;
 
 	i = 0;
-	while (!(str[i] >= 9 && str[i] <= 13)
-		&& str[i] != 32 && str[i] != 58 && str[i] != '\0')
+	while (!ft_is_space(str[i]) && str[i] != '\'' && str[i] != 58
+		&& str[i] != '\0')
 		i += 1;
 	return (i);
 }

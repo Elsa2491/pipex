@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/04/03 14:39:06 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/04/05 20:33:33 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ void	ft_exec_cmd1(t_pipex *pipex, char **argv, char **env)
 		ft_free_tab(pipex->cmd_path);
 		exit (1);
 	}
-	while (cmd1[pipex->i++])
-		cmd1[pipex->i] = ft_handle_quotes_and_slash(cmd1[pipex->i]);
 	cmd1_path = ft_get_cmd_path(pipex, cmd1[0], cmd1);
 	execve(cmd1_path, cmd1, env);
 	perror(cmd1_path);
@@ -109,8 +107,6 @@ void	ft_exec_cmd2(t_pipex *pipex, char **argv, char **env)
 			ft_free_tab(pipex->cmd_path);
 			exit (1);
 		}
-		while (cmd2[pipex->i++])
-			cmd2[pipex->i] = ft_handle_quotes_and_slash(cmd2[pipex->i]);
 		cmd2_path = ft_get_cmd_path(pipex, cmd2[0], cmd2);
 		(execve(cmd2_path, cmd2, env), perror(cmd2_path), free(cmd2_path));
 		ft_free_tab(pipex->cmd_path);

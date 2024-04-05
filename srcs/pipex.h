@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 15:17:53 by eltouma           #+#    #+#             */
-/*   Updated: 2024/03/19 17:02:19 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/04/05 20:34:55 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	ft_exec_cmd2(t_pipex *pipex, char **argv, char **env);
 int		ft_strlen(char *str);
 int		ft_count_words(char *str);
 int		ft_count_size_of_word(char *str);
+int		ft_is_space(char c);
 char	**ft_split(char *str);
 void	*ft_free_tab(char **tab);
 
@@ -70,8 +71,6 @@ int		ft_is_space_only(char *str);
 int		ft_is_slash_only(char *str);
 void	ft_handle_space_error(char **argv, t_pipex *pipex);
 void	ft_handle_slash_error(char **argv, t_pipex *pipex);
-char	*ft_handle_quotes_and_slash(char *argv);
-void	ft_handle_quotes_error(char **argv, t_pipex *pipex);
 
 void	ft_putstr_fd(char *str, int fd);
 void	ft_handle_file_error(char **argv, t_pipex *pipex);

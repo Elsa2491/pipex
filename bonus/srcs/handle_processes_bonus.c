@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/04/03 21:35:05 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/04/05 20:45:04 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ void	ft_exec_cmds(t_pipex *pipex, char **argv, char **env)
 		ft_free_tab(pipex->cmd_path);
 		exit (1);
 	}
-	while (cmds[i++])
-		cmds[i] = ft_handle_quotes_and_slash(cmds[i]);
 	cmds_path = ft_get_cmd_path(pipex, cmds[0], cmds);
 	execve(cmds_path, cmds, env);
 	perror(cmds_path);
