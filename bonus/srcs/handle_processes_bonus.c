@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/04/09 15:23:36 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/04/11 23:49:41 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	ft_exec_cmds(t_pipex *pipex, char **argv, char **env)
 	execve(cmds_path, cmds, env);
 	perror(cmds_path);
 	free(cmds_path);
+	ft_free_tab(cmds);
 	ft_free_tab(pipex->cmd_path);
 	exit (1);
 }

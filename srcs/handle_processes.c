@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/04/09 14:25:23 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/04/11 23:48:20 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	ft_exec_cmd1(t_pipex *pipex, char **argv, char **env)
 	execve(cmd1_path, cmd1, env);
 	perror(cmd1_path);
 	free(cmd1_path);
+	ft_free_tab(cmd1);
 	ft_free_tab(pipex->cmd_path);
 	exit (1);
 }
@@ -109,6 +110,7 @@ void	ft_exec_cmd2(t_pipex *pipex, char **argv, char **env)
 		}
 		cmd2_path = ft_get_cmd_path(pipex, cmd2[0], cmd2);
 		(execve(cmd2_path, cmd2, env), perror(cmd2_path), free(cmd2_path));
+		ft_free_tab(cmd2);
 		ft_free_tab(pipex->cmd_path);
 		exit (2);
 	}
