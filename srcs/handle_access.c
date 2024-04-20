@@ -6,7 +6,7 @@
 /*   By: eltouma <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:46:15 by eltouma           #+#    #+#             */
-/*   Updated: 2024/04/20 18:46:51 by eltouma          ###   ########.fr       */
+/*   Updated: 2024/04/20 19:17:14 by eltouma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	ft_handle_no_file_or_dir(t_pipex *pipex, char *argv, char **path)
 {
-	ft_putstr_fd(argv, 2);
 	ft_free(pipex, argv, path, ": No such file or directory\n");
 	exit (127);
 }
